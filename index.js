@@ -12,7 +12,12 @@ module.exports = {
         works: 'insideProject',
 
         run(options, rawArgs) {
-          let checkup = new Checkup(options, rawArgs, this.ui);
+          let project = Object.assign(
+            Object.create(Object.getPrototypeOf(this.project)),
+            this.project
+          );
+
+          let checkup = new Checkup(options, rawArgs, project, this.ui);
 
           return checkup.run();
         },
