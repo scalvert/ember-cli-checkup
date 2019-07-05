@@ -1,27 +1,30 @@
 'use strict';
 
-const Checkup = require('./lib/checkup');
+const fs = require('fs');
 
-module.exports = {
-  name: require('./package').name,
-  includedCommands: function() {
-    return {
-      checkup: {
-        name: 'checkup',
-        description: 'A checkup for your Ember application or addon',
-        works: 'insideProject',
+// If transpiled output is present, always default to loading that first.
+// Otherwise, register ts-node if necessary and load from source.
+if (fs.existsSync(`${__dirname}/js/addon.js`)) {
+  // eslint-disable-next-line node/no-missing-require
+  module.exports = require('./js/addon').default;
+} else {
+  // eslint-disable-next-line node/no-deprecated-api
+  if (!require.extensions['.ts']) {
+    let options = { project: `${__dirname}/lib/tsconfig.json` };
 
-        run(options, rawArgs) {
-          let project = Object.assign(
-            Object.create(Object.getPrototypeOf(this.project)),
-            this.project
-          );
+    // If we're operating in the context of another project, which might happen
+    // if someone has installed ember-cli-typescript from git, only perform
+    // transpilation and skip the default ignore glob (which prevents anything
+    // in node_modules from being transpiled)
+    if (process.cwd() !== __dirname) {
+      options.skipIgnore = true;
+      options.transpileOnly = true;
+    }
 
-          let checkup = new Checkup(options, rawArgs, project, this.ui);
+    // eslint-disable-next-line node/no-unpublished-require
+    require('ts-node').register(options);
+  }
 
-          return checkup.run();
-        },
-      },
-    };
-  },
-};
+  // eslint-disable-next-line node/no-missing-require
+  module.exports = require('./lib/addon').default;
+}
