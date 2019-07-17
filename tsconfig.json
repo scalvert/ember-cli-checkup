@@ -20,21 +20,10 @@
     "baseUrl": ".",
     "module": "es6",
     "paths": {
-      "dummy/tests/*": ["tests/*"],
-      "dummy/*": ["tests/dummy/app/*", "app/*"],
-      "ember-cli-checkup": ["addon"],
-      "ember-cli-checkup/*": ["addon/*"],
-      "ember-cli-checkup/test-support": ["addon-test-support"],
-      "ember-cli-checkup/test-support/*": ["addon-test-support/*"],
+      "tests/*": ["tests/*"],
+      "ember-cli-checkup": ["lib"],
       "*": ["types/*"]
     }
   },
-  "include": [
-    "app/**/*",
-    "addon/**/*",
-    "tests/**/*",
-    "types/**/*",
-    "test-support/**/*",
-    "addon-test-support/**/*"
-  ]
+  "include": ["lib/**/*", "tests/**/*", "types/**/*"]
 }

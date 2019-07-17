@@ -10,7 +10,6 @@ let command: ICommand = {
 
   run(): Promise<ICheckupResult> {
     let project = Object.assign(Object.create(Object.getPrototypeOf(this.project)), this.project);
-
     let checkup = new Checkup(project, this.ui);
 
     return checkup.run();

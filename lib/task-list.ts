@@ -31,8 +31,8 @@ export default class TaskList implements ITaskList {
   }
 
   runTasks() {
+    this.ui.spinner.title = 'Gathering information about your project';
     return this._eachTask((task: ITask) => {
-      this.ui.spinner.title = task.title;
       return task.run();
     });
   }

@@ -1,5 +1,5 @@
 import { IUserInterface, IProject, ICheckupResult } from '../interfaces';
-import CheckupResult from './result/checkup-result';
+import CheckupResult from './checkup-result';
 import TaskList from './task-list';
 import ProjectInfo from './tasks/project-info';
 import CheckEmberAddons from './tasks/check-ember-addons';
@@ -32,6 +32,8 @@ export default class Checkup {
 
     let result = await tasks.runTasks();
     this.ui.spinner.stop();
+
+    console.log(JSON.stringify(result, null, 2));
 
     return result;
   }

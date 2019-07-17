@@ -58,7 +58,6 @@ export interface ITaskList {
 }
 
 export interface ITask {
-  title: string;
   result: ICheckupResult;
   run: () => void;
 }

@@ -1,10 +1,10 @@
-import Task from '../models/task';
+import Task from '../task';
 import { ITask, ICheckupResult, IProject } from '../../interfaces';
 import getProjectType from '../utils/get-project-type';
 
 export default class ProjectInfo extends Task implements ITask {
-  constructor(result: ICheckupResult, project: IProject) {
-    super('Getting Project Information', project, result);
+  constructor(project: IProject, result: ICheckupResult) {
+    super(project, result);
   }
 
   run() {
