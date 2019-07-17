@@ -21,7 +21,9 @@
     "postpublish": "ember ts:clean"
   },
   "dependencies": {
+    "capitalize": "^2.0.0",
     "ember-cli-babel": "^6.16.0",
+    "globby": "^10.0.1",
     "ora": "^3.0.0",
     "p-map": "^2.0.0"
   },

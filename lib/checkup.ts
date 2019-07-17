@@ -17,17 +17,10 @@ export default class Checkup {
     let checkupResult: ICheckupResult = new CheckupResult();
     let tasks = new TaskList(this.project, this.ui, checkupResult);
 
-    // Reading project information
-    // - Project name
-    // - Version
     tasks.addDefault(ProjectInfo);
-    // - ember addons used
     tasks.add(CheckEmberAddons);
-    // Determining outdated dependencies
-    // Checking Ember types used
-    // Checking Test types used
 
-    this.ui.spinner.title = 'Checking up on your Ember project';
+    this.ui.spinner.title = 'Hang tight while we check up on your Ember project';
     this.ui.spinner.start();
 
     let result = await tasks.runTasks();
