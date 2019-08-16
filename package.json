@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-checkup",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "The default blueprint for ember-cli addons.",
   "keywords": [
     "ember-addon"
@@ -29,6 +29,7 @@
   },
   "devDependencies": {
     "@ember/optional-features": "^0.6.3",
+    "@types/capitalize": "^1.0.1",
     "@types/console-ui": "^2.2.0",
     "@types/ember": "^3.0.29",
     "@types/ember-qunit": "^3.4.5",

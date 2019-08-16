@@ -13,6 +13,7 @@ export interface ICommand extends IEmberCLICommand {
 }
 
 export interface IProject {
+  baseDir: string;
   pkg: {
     name: string;
     version: string;
@@ -41,19 +42,24 @@ export interface IUserInterface {
   writeLine: (line: string) => void;
 }
 
-export interface ICheckupResult {
-  project: any;
+export interface IDependencyList {
+  dependencies: { [key: string]: string };
+  devDependencies: { [key: string]: string };
 }
 
-export interface IProjectResult {
+export interface ICheckupResult {
+  types: any[];
   type: ProjectType;
   name: string;
   version: string;
+  emberLibraries: { [key: string]: string };
+  emberAddons: IDependencyList;
+  emberCliAddons: IDependencyList;
 }
 
 export interface ITaskList {
-  add: (task: ITask) => void;
-  addDefault: (task: ITask) => void;
+  add: (task: ITaskConstructor) => void;
+  addDefault: (task: ITaskConstructor) => void;
   runTasks: () => void;
 }
 
@@ -61,3 +67,9 @@ export interface ITask {
   result: ICheckupResult;
   run: () => void;
 }
+
+export interface ITaskConstructor {
+  new (project: IProject, result: ICheckupResult): ITask;
+}
+
+export type SearchPatterns = { [key: string]: string[] };

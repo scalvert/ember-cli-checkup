@@ -1,5 +1,3 @@
-'use strict';
-
 import Checkup from './checkup';
 import { ICommand, ICheckupResult } from '../interfaces';
 

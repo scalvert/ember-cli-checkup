@@ -1,4 +1,4 @@
-import { ITask, ICheckupResult, IProject } from '../interfaces';
+import { ITask, IProject, ICheckupResult } from '../interfaces';
 
 export default abstract class Task implements ITask {
   project: IProject;

@@ -1,20 +1,12 @@
-/* eslint-env node */
 import globby from 'globby';
-import capitalize from 'capitalize';
+import { SearchPatterns } from '../../interfaces';
 
-type SearchPatterns = { [key: string]: string[] };
+const IGNORE_PATTERNS: string[] = ['!node_modules/**', '!bower_components/**', '!tests/dummy/**'];
 
-const IGNORE_PATTERNS = [
-  '!tests/**',
-  '!node_modules/**',
-  '!bower_components/**',
-  '!tests/dummy/**',
-];
-
-export default class Searcher {
+export default class FileSearcher {
   baseDir: string;
   searchPatterns: SearchPatterns;
-  searchPromises: Array<Promise<any>>;
+  searchPromises: Promise<string[]>[];
 
   constructor(baseDir: string, searchPatterns: SearchPatterns) {
     this.baseDir = baseDir;
@@ -22,21 +14,17 @@ export default class Searcher {
     this.searchPromises = [];
   }
 
-  async search() {
+  search() {
     Object.keys(this.searchPatterns).forEach(pattern => {
       this.searchPromises.push(this._getSearchItem(pattern));
     });
 
-    await Promise.all(this.searchPromises);
+    return Promise.all(this.searchPromises);
   }
 
-  async _getSearchItem(pattern) {
-    let files = await globby(this.searchPatterns[pattern].concat(IGNORE_PATTERNS), {
-      cwd: this.baseDir,
-    });
-
-    let result = [capitalize(pattern), files.length];
-
-    return result;
+  _getSearchItem(pattern: string): Promise<string[]> {
+    let patterns: string[] = this.searchPatterns[pattern].concat(IGNORE_PATTERNS);
+    // @ts-ignore
+    return globby(patterns);
   }
 }

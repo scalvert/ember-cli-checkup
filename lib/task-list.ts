@@ -1,4 +1,11 @@
-import { ITaskList, IUserInterface, ITask, ICheckupResult, IProject } from '../interfaces';
+import {
+  ITaskList,
+  IUserInterface,
+  ITask,
+  ICheckupResult,
+  IProject,
+  ITaskConstructor,
+} from '../interfaces';
 import pMap from 'p-map';
 
 export default class TaskList implements ITaskList {
@@ -22,8 +29,14 @@ export default class TaskList implements ITaskList {
     this.tasks = [];
   }
 
-  addDefault(ctor: any) {
-    this.defaultTasks.push(new ctor(this.project, this.result));
+  addDefault(taskConstructor: ITaskConstructor) {
+    this.defaultTasks.push(new taskConstructor(this.project, this.result));
+  }
+
+  addDefaults(taskConstructors: ITaskConstructor[]) {
+    taskConstructors.forEach((taskConstructor: ITaskConstructor) => {
+      this.addDefault(taskConstructor);
+    });
   }
 
   add(ctor: any) {
