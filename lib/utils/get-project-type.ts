@@ -1,5 +1,5 @@
-import fs from 'fs';
-import path from 'path';
+import * as fs from 'fs';
+import * as path from 'path';
 import { IProject, ProjectType } from '../../interfaces';
 
 export default function getProjectType(project: IProject): ProjectType {

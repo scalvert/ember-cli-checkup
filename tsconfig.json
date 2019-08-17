@@ -3,7 +3,6 @@
     "target": "es2017",
     "allowJs": true,
     "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
     "noImplicitAny": true,
     "noImplicitThis": true,
     "alwaysStrict": true,
@@ -14,17 +13,15 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noEmitOnError": false,
-    "noEmit": true,
     "inlineSourceMap": true,
     "inlineSources": true,
     "baseUrl": ".",
-    "module": "es6",
+    "module": "commonjs",
     "paths": {
-      "tests/*": ["tests/*"],
       "ember-cli-checkup": ["lib"],
       "ember-cli-checkup/*": ["lib/*"],
       "*": ["types/*"]
     }
   },
-  "include": ["lib/**/*", "tests/**/*", "types/**/*"]
+  "include": ["lib", "types"]
 }

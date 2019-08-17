@@ -1,4 +1,4 @@
-import globby from 'globby';
+import * as globby from 'globby';
 import { SearchPatterns } from '../../interfaces';
 
 const IGNORE_PATTERNS: string[] = ['!node_modules/**', '!bower_components/**', '!tests/dummy/**'];
@@ -24,7 +24,6 @@ export default class FileSearcher {
 
   _getSearchItem(pattern: string): Promise<string[]> {
     let patterns: string[] = this.searchPatterns[pattern].concat(IGNORE_PATTERNS);
-    // @ts-ignore
     return globby(patterns);
   }
 }
