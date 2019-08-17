@@ -6,6 +6,11 @@
 - `cd ember-cli-checkup`
 - `yarn install`
 
+## Building
+
+- `yarn build` - builds the Ember CLI command
+- `yarn clean` - cleans all JS files that resulted from a build
+
 ## Linting
 
 - `yarn lint`
@@ -13,9 +18,7 @@
 
 ## Running tests
 
-- `ember test` – Runs the test suite on the current Ember version
-- `ember test --server` – Runs the test suite in "watch mode"
-- `ember try:each` – Runs the test suite against multiple Ember versions
+- `yarn test` – Runs the test suite
 
 ## Running the dummy application
 
