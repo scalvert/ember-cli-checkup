@@ -39,7 +39,7 @@ export default class TaskList implements ITaskList {
     });
   }
 
-  add(ctor: any) {
+  add(ctor: ITaskConstructor) {
     this.tasks.push(new ctor(this.project, this.result));
   }
 
