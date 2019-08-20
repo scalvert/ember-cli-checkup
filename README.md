@@ -1,5 +1,7 @@
 # ember-cli-checkup
 
+:warning: This repository is a work in progress. It is not currently usable.
+
 > Provides the ability to check up on your Ember application or addon, so you can
 > get a high-level view of its current status.
 
