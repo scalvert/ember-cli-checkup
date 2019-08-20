@@ -23,7 +23,7 @@ export default class FileSearcher {
   }
 
   _getSearchItem(pattern: string): Promise<string[]> {
-    let patterns: string[] = this.searchPatterns[pattern].concat(IGNORE_PATTERNS);
+    let patterns = this.searchPatterns[pattern].concat(IGNORE_PATTERNS);
     return globby(patterns);
   }
 }
