@@ -14,9 +14,11 @@
   },
   "scripts": {
     "build": "tsc",
-    "clean": "find lib interfaces -name '*.js' -type f -delete",
+    "clean": "find lib interfaces node-tests -name '*.js' -type f -delete",
     "lint": "eslint --ext js,ts .",
-    "test": "qunit tests/unit",
+    "pretest": "yarn build",
+    "test": "yarn test:node",
+    "test:node": "qunit node-tests/unit",
     "prepublishOnly": "yarn build",
     "postpublish": "yarn clean"
   },
@@ -64,6 +66,7 @@
     "eslint-plugin-ember": "^6.2.0",
     "eslint-plugin-node": "^9.0.1",
     "eslint-plugin-prettier": "^3.1.0",
+    "fixturify-project": "^1.9.0",
     "loader.js": "^4.7.0",
     "prettier": "^1.18.2",
     "qunit-dom": "^0.8.4",

@@ -1,7 +1,6 @@
-var module = QUnit.module;
-var test = QUnit.test;
+const { test } = QUnit;
 
-module('checkup', function() {
+QUnit.module('checkup', function() {
   test('checkup instantiates', function(assert) {
     assert.ok(true);
   });
