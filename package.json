@@ -27,7 +27,7 @@
     "ember-cli-babel": "^7.7.3",
     "globby": "^10.0.1",
     "ora": "^3.0.0",
-    "p-map": "^2.0.0"
+    "p-map": "^3.0.0"
   },
   "devDependencies": {
     "@ember/optional-features": "^0.7.0",
