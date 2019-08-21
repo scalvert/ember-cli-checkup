@@ -14,9 +14,11 @@
   },
   "scripts": {
     "build": "tsc",
-    "clean": "find lib interfaces -name '*.js' -type f -delete",
+    "clean": "find lib interfaces node-tests -name '*.js' -type f -delete",
     "lint": "eslint --ext js,ts .",
-    "test": "qunit tests/unit",
+    "pretest": "yarn build",
+    "test": "yarn test:node",
+    "test:node": "qunit node-tests/unit",
     "prepublishOnly": "yarn build",
     "postpublish": "yarn clean"
   },

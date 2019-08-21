@@ -23,5 +23,5 @@
       "*": ["types/*"]
     }
   },
-  "include": ["lib", "types"]
+  "include": ["lib", "node-tests", "types"]
 }

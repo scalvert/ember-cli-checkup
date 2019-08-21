@@ -33,7 +33,7 @@ export default class DependenciesTask extends Task implements ITask {
     super(project, result);
   }
 
-  run() {
+  run(): Promise<ICheckupResult> {
     return new Promise(resolve => {
       let project = this.project;
       let pkg = project.pkg;

@@ -47,9 +47,14 @@ module.exports = {
       }),
     },
     {
-      files: ['tests/**/*.[jt]s'],
+      files: ['node-tests/**/*.ts'],
+      parserOptions: {
+        ecmaVersion: 2017,
+        sourceType: 'module',
+      },
       env: {
         qunit: true,
+        node: true,
       },
     },
   ],
