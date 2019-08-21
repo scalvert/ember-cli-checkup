@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "capitalize": "^2.0.0",
-    "ember-cli-babel": "^7.7.3",
+    "ember-cli-babel": "^7.10.0",
     "globby": "^10.0.1",
     "ora": "^3.0.0",
     "p-map": "^2.0.0"
