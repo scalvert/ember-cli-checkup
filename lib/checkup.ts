@@ -34,12 +34,11 @@ export default class Checkup {
 
     tasks.addDefaults(defaultTaskConstructors);
 
-    this.ui.spinner.title = 'Hang tight while we check up on your Ember project';
-    this.ui.spinner.start();
+    this.ui.startProgress('Hang tight while we check up on your Ember project');
 
     let result = await tasks.runTasks();
 
-    this.ui.spinner.stop();
+    this.ui.stopProgress();
 
     console.log(JSON.stringify(result, null, 2));
 

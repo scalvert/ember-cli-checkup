@@ -40,6 +40,8 @@ export interface ISpinner {
 export interface IUserInterface {
   spinner: ISpinner;
   writeLine: (line: string) => void;
+  startProgress: (message: string) => void;
+  stopProgress: () => void;
 }
 
 export interface IDependencyList {
