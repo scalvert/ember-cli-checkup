@@ -6,7 +6,7 @@ import {
   IProject,
   ITaskConstructor,
 } from '../interfaces';
-import pMap from 'p-map';
+import * as pMap from 'p-map';
 
 export default class TaskList implements ITaskList {
   run() {
