@@ -1,5 +1,10 @@
 import { ICheckupResult, IDependencyList, ProjectType } from '../interfaces';
 
+/**
+ * @class Result
+ *
+ * Comprises the serializable result of all task operations.
+ */
 export default class Result implements ICheckupResult {
   types!: any[];
   type!: ProjectType;
