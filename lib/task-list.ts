@@ -1,11 +1,4 @@
-import {
-  ITaskList,
-  IUserInterface,
-  ITask,
-  ICheckupResult,
-  IProject,
-  ITaskConstructor,
-} from '../interfaces';
+import { ITaskList, ITask, ICheckupResult, IProject, ITaskConstructor } from '../interfaces';
 import * as pMap from 'p-map';
 
 /**
@@ -22,7 +15,6 @@ export default class TaskList implements ITaskList {
   }
   private result: ICheckupResult;
   private project: IProject;
-  private ui: IUserInterface;
   private tasks: ITask[];
   private defaultTasks: ITask[];
 
@@ -32,9 +24,8 @@ export default class TaskList implements ITaskList {
    * @param ui {IUserInterface} the UI model that is instantiated as part of ember-cli.
    * @param result {ICheckupResult} the result object that aggregates data together for output.
    */
-  constructor(project: IProject, ui: IUserInterface, result: ICheckupResult) {
+  constructor(project: IProject, result: ICheckupResult) {
     this.project = project;
-    this.ui = ui;
     this.result = result;
     this.defaultTasks = [];
     this.tasks = [];
@@ -81,7 +72,6 @@ export default class TaskList implements ITaskList {
    * Runs all tasks that have been added to the task list.
    */
   runTasks() {
-    this.ui.spinner.title = 'Gathering information about your project';
     return this.eachTask((task: ITask) => {
       return task.run();
     });

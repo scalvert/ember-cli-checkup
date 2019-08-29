@@ -1,7 +1,9 @@
 import { IUserInterface, IProject, ICheckupResult, ITaskConstructor } from '../interfaces';
 import Result from './result';
 import TaskList from './task-list';
-import * as Tasks from './tasks';
+import * as DefaultTasks from './tasks';
+
+const DEFAULT_TASKS = <ITaskConstructor[]>Object.values(DefaultTasks);
 
 /**
  * @class Checkup
@@ -11,15 +13,24 @@ import * as Tasks from './tasks';
 export default class Checkup {
   project: IProject;
   ui: IUserInterface;
+  defaultTasks: ITaskConstructor[];
+  result: ICheckupResult;
 
   /**
    *
    * @param project {IProject} the project model that is instantiated as part of ember-cli.
    * @param ui {IUserInterface} the UI model that is instantiated as part of ember-cli.
    */
-  constructor(project: IProject, ui: IUserInterface) {
+  constructor(
+    project: IProject,
+    ui: IUserInterface,
+    tasks: ITaskConstructor[] = DEFAULT_TASKS,
+    result = new Result()
+  ) {
     this.project = project;
     this.ui = ui;
+    this.defaultTasks = tasks;
+    this.result = result;
   }
 
   /**
@@ -28,9 +39,8 @@ export default class Checkup {
    * Gathers and runs all tasks associated with checking up on an Ember repo.
    */
   async run(): Promise<ICheckupResult> {
-    let checkupResult: ICheckupResult = new Result();
-    let tasks = new TaskList(this.project, this.ui, checkupResult);
-    let defaultTaskConstructors = <ITaskConstructor[]>Object.values(Tasks);
+    let tasks = new TaskList(this.project, this.result);
+    let defaultTaskConstructors = this.defaultTasks;
 
     tasks.addDefaults(defaultTaskConstructors);
 

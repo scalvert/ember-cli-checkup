@@ -14,6 +14,7 @@
   },
   "scripts": {
     "build": "tsc",
+    "dev": "tsc -w",
     "clean": "find lib interfaces node-tests -name '*.js' -type f -delete",
     "lint": "eslint --ext js,ts .",
     "pretest": "yarn build",
