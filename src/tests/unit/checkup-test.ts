@@ -1,11 +1,12 @@
+// @ts-ignore
 import IFixturifyProject = require('ember-cli/tests/helpers/fixturify-project');
 const FixturifyProject = require('ember-cli/tests/helpers/fixturify-project');
 const MockUI = require('console-ui/mock');
 const globby = require('globby');
 
 import { ITaskConstructor, ITask, IProject, ICheckupResult } from '../../interfaces';
-import Checkup from '../../lib/checkup';
-import Task from '../../lib/task';
+import Checkup from '../../checkup';
+import Task from '../../task';
 
 const { test } = QUnit;
 
@@ -35,7 +36,7 @@ QUnit.module('checkup', function(hooks) {
 
   test('checkup instantiates with correct number of default tasks', function(assert) {
     let checkup = new Checkup(project, new MockUI());
-    let expectedTaskFiles = globby.sync(process.cwd() + '/lib/tasks/*-task.ts');
+    let expectedTaskFiles = globby.sync(process.cwd() + '/src/tasks/*-task.ts');
 
     assert.equal(checkup.defaultTasks.length, expectedTaskFiles.length);
   });

@@ -1,5 +1,5 @@
 import * as globby from 'globby';
-import { SearchPatterns } from '../../interfaces';
+import { SearchPatterns } from '../interfaces';
 
 const IGNORE_PATTERNS: string[] = ['!node_modules/**', '!bower_components/**', '!tests/dummy/**'];
 

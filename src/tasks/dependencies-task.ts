@@ -1,4 +1,4 @@
-import { IProject, ICheckupResult, ITask } from '../../interfaces';
+import { IProject, ICheckupResult, ITask } from '../interfaces';
 import Task from '../task';
 
 function getDependency(dependencies: { [key: string]: string }, key: string): string {

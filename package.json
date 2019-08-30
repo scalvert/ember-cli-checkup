@@ -15,11 +15,9 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc -w",
-    "clean": "find lib interfaces node-tests -name '*.js' -type f -delete",
+    "clean": "rm -rf lib/*",
     "lint": "eslint --ext js,ts .",
-    "pretest": "yarn build",
-    "test": "yarn test:node",
-    "test:node": "qunit node-tests/unit",
+    "test": "yarn build && qunit lib/tests && yarn clean",
     "prepublishOnly": "yarn build",
     "postpublish": "yarn clean"
   },

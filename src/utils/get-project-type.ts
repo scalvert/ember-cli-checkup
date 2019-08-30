@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { IProject, ProjectType } from '../../interfaces';
+import { IProject, ProjectType } from '../interfaces';
 
 /**
  * Gets the current type of project, either

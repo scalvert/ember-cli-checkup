@@ -1,4 +1,4 @@
-import { ICheckupResult, IDependencyList, ProjectType } from '../interfaces';
+import { ICheckupResult, IDependencyList, ProjectType } from './interfaces';
 
 /**
  * @class Result

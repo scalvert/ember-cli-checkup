@@ -47,7 +47,7 @@ module.exports = {
       }),
     },
     {
-      files: ['node-tests/**/*.ts'],
+      files: ['src/tests/**/*.ts'],
       parserOptions: {
         ecmaVersion: 2017,
         sourceType: 'module',

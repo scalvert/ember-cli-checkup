@@ -1,4 +1,4 @@
-import { ITask, ICheckupResult, IProject } from '../../interfaces';
+import { ITask, ICheckupResult, IProject } from '../interfaces';
 import Task from '../task';
 import FileSearcher from '../utils/file-searcher';
 

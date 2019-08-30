@@ -1,10 +1,11 @@
-import { IUserInterface, IProject, ICheckupResult, ITaskConstructor } from '../interfaces';
+import { IUserInterface, IProject, ICheckupResult, ITaskConstructor } from './interfaces';
 import Result from './result';
 import TaskList from './task-list';
 import * as DefaultTasks from './tasks';
 
-const DEFAULT_TASKS = <ITaskConstructor[]>Object.values(DefaultTasks);
-
+const DEFAULT_TASKS = <ITaskConstructor[]>(
+  Object.values(DefaultTasks).filter(x => typeof x == 'function')
+);
 /**
  * @class Checkup
  *

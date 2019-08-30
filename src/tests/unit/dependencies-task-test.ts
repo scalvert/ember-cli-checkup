@@ -1,8 +1,9 @@
+// @ts-ignore
 import IFixturifyProject = require('ember-cli/tests/helpers/fixturify-project');
 const FixturifyProject = require('ember-cli/tests/helpers/fixturify-project');
 
-import DependenciesTask from '../../lib/tasks/dependencies-task';
-import Result from '../../lib/result';
+import DependenciesTask from '../../tasks/dependencies-task';
+import Result from '../../result';
 
 const { test } = QUnit;
 

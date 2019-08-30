@@ -1,5 +1,5 @@
 import Checkup from './checkup';
-import { ICommand, ICheckupResult } from '../interfaces';
+import { ICommand, ICheckupResult } from './interfaces';
 
 let command: ICommand = {
   name: 'checkup',

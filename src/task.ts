@@ -1,4 +1,4 @@
-import { ITask, IProject, ICheckupResult } from '../interfaces';
+import { ITask, IProject, ICheckupResult } from './interfaces';
 
 /**
  * @class Task
