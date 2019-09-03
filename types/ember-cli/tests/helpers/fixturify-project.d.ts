@@ -8,6 +8,7 @@ interface EmberCLIFixturifyProject extends FixturifyProject {
     callback?: (project: FixturifyProject) => void
   ): FixturifyProject;
   buildProjectModel(): IProject;
+  dispose: (filepath?: string) => void;
 }
 
 /* eslint-disable no-undef */

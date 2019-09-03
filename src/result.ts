@@ -1,4 +1,4 @@
-import { ICheckupResult, IDependencyList, ProjectType } from './interfaces';
+import { ICheckupResult, IDependencyList, ProjectType, ITaskItemData } from './interfaces';
 
 /**
  * @class Result
@@ -6,7 +6,8 @@ import { ICheckupResult, IDependencyList, ProjectType } from './interfaces';
  * Comprises the serializable result of all task operations.
  */
 export default class Result implements ICheckupResult {
-  types!: any[];
+  types!: ITaskItemData;
+  tests!: ITaskItemData;
   type!: ProjectType;
   name!: string;
   version!: string;

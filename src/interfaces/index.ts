@@ -49,7 +49,8 @@ export interface IDependencyList {
 }
 
 export interface ICheckupResult {
-  types: any[];
+  types: ITaskItemData;
+  tests: ITaskItemData;
   type: ProjectType;
   name: string;
   version: string;
@@ -58,6 +59,9 @@ export interface ICheckupResult {
   emberCliAddons: IDependencyList;
 }
 
+export interface ITaskItemData {
+  [propName: string]: string[];
+}
 export interface ITaskList {
   add: (task: ITaskConstructor) => void;
   addDefault: (task: ITaskConstructor) => void;
