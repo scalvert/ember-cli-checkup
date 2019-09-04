@@ -9,7 +9,7 @@ const test = QUnit.test;
 
 const FILE_PATH = 'tests/testApp';
 
-module('checkup', function(hooks) {
+module('tests-task', function(hooks) {
   let fixturifyProject: IFixturifyProject;
 
   hooks.beforeEach(function() {
