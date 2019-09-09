@@ -1,7 +1,14 @@
 import * as globby from 'globby';
 import { SearchPatterns, ITaskItemData } from '../interfaces';
 
-const IGNORE_PATTERNS: string[] = ['!node_modules/**', '!bower_components/**', '!tests/dummy/**'];
+const IGNORE_PATTERNS: string[] = [
+  '!**/node_modules/**',
+  '!bower_components/**',
+  '!**/tests/dummy/**',
+  '!concat-stats-for/**',
+  '!dist',
+  '!build',
+];
 
 /**
  * @class FileSearcher

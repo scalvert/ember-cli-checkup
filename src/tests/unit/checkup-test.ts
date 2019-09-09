@@ -35,7 +35,7 @@ QUnit.module('checkup', function(hooks) {
   });
 
   test('checkup instantiates with correct number of default tasks', function(assert) {
-    let checkup = new Checkup(project, new MockUI());
+    let checkup = new Checkup({ silent: true }, project, new MockUI());
     let expectedTaskFiles = globby.sync(process.cwd() + '/src/tasks/*-task.ts');
 
     assert.equal(checkup.defaultTasks.length, expectedTaskFiles.length);
@@ -43,7 +43,7 @@ QUnit.module('checkup', function(hooks) {
 
   test('checkup run correctly runs all tasks', async function(assert) {
     let tasks: ITaskConstructor[] = [FakeTask];
-    let checkup = new Checkup(project, new MockUI(), tasks);
+    let checkup = new Checkup({ silent: true }, project, new MockUI(), tasks);
 
     let result: ICheckupResult = await checkup.run();
 

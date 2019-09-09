@@ -7,9 +7,16 @@ export interface IEmberCLICommand {
 
 export interface ICommand extends IEmberCLICommand {
   name: string;
+  aliases: string[];
   description: string;
   works: string;
-  run: () => {};
+  availableOptions: object[];
+  run: (options: object) => {};
+}
+
+export interface IOptions {
+  verbose?: boolean;
+  silent?: boolean;
 }
 
 export interface IProject {
@@ -78,3 +85,7 @@ export interface ITaskConstructor {
 }
 
 export type SearchPatterns = { [key: string]: string[] };
+
+export interface IResultConsoleWriter {
+  write: () => void;
+}

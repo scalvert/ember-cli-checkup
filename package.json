@@ -23,6 +23,9 @@
   },
   "dependencies": {
     "capitalize": "^2.0.0",
+    "chalk": "^2.4.2",
+    "cli-table3": "^0.5.1",
+    "columnify": "^1.5.4",
     "ember-cli-babel": "^7.11.0",
     "globby": "^10.0.1",
     "ora": "^3.0.0",
@@ -31,6 +34,7 @@
   "devDependencies": {
     "@ember/optional-features": "^0.7.0",
     "@types/capitalize": "^1.0.1",
+    "@types/chalk": "^2.2.0",
     "@types/console-ui": "^2.2.0",
     "@types/ember": "^3.0.29",
     "@types/ember-qunit": "^3.4.5",

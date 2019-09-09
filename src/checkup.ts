@@ -1,7 +1,15 @@
-import { IUserInterface, IProject, ICheckupResult, ITaskConstructor } from './interfaces';
+import {
+  IUserInterface,
+  IProject,
+  ICheckupResult,
+  ITaskConstructor,
+  IOptions,
+  IResultConsoleWriter,
+} from './interfaces';
 import Result from './result';
 import TaskList from './task-list';
 import * as DefaultTasks from './tasks';
+import getConsoleWriter from './utils/get-console-writer';
 
 const DEFAULT_TASKS = <ITaskConstructor[]>(
   Object.values(DefaultTasks).filter(x => typeof x == 'function')
@@ -12,6 +20,7 @@ const DEFAULT_TASKS = <ITaskConstructor[]>(
  * The entry point for invoking all checkup tasks.
  */
 export default class Checkup {
+  options: IOptions;
   project: IProject;
   ui: IUserInterface;
   defaultTasks: ITaskConstructor[];
@@ -23,11 +32,13 @@ export default class Checkup {
    * @param ui {IUserInterface} the UI model that is instantiated as part of ember-cli.
    */
   constructor(
+    options: IOptions,
     project: IProject,
     ui: IUserInterface,
     tasks: ITaskConstructor[] = DEFAULT_TASKS,
     result = new Result()
   ) {
+    this.options = options;
     this.project = project;
     this.ui = ui;
     this.defaultTasks = tasks;
@@ -51,7 +62,11 @@ export default class Checkup {
 
     this.ui.stopProgress();
 
-    console.log(JSON.stringify(result, null, 2));
+    if (!this.options.silent) {
+      let writer: IResultConsoleWriter = getConsoleWriter(result, this.options.verbose);
+
+      writer.write();
+    }
 
     return result;
   }

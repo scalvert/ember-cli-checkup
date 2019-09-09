@@ -1,13 +1,18 @@
 import Checkup from './checkup';
-import { ICommand, ICheckupResult } from './interfaces';
+import { ICommand, ICheckupResult, IOptions } from './interfaces';
 
 let command: ICommand = {
   name: 'checkup',
+  aliases: ['cu'],
   description: 'A checkup for your Ember application or addon',
   works: 'insideProject',
+  availableOptions: [
+    { name: 'verbose', type: Boolean, default: false, aliases: ['v'] },
+    { name: 'silent', type: Boolean, default: false, aliases: ['s'] },
+  ],
 
-  run(): Promise<ICheckupResult> {
-    let checkup = new Checkup(this.project, this.ui);
+  run(options: IOptions): Promise<ICheckupResult> {
+    let checkup = new Checkup(options, this.project, this.ui);
 
     return checkup.run();
   },
