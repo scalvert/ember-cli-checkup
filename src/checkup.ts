@@ -1,15 +1,7 @@
-import {
-  IUserInterface,
-  IProject,
-  ICheckupResult,
-  ITaskConstructor,
-  IOptions,
-  IResultConsoleWriter,
-} from './interfaces';
-import Result from './result';
+import { IUserInterface, IProject, ITaskConstructor, IOptions, ITaskResult } from './interfaces';
 import TaskList from './task-list';
 import * as DefaultTasks from './tasks';
-import getConsoleWriter from './utils/get-console-writer';
+import ResultConsoleWriter from './utils/result-console-writer';
 
 const DEFAULT_TASKS = <ITaskConstructor[]>(
   Object.values(DefaultTasks).filter(x => typeof x == 'function')
@@ -24,7 +16,7 @@ export default class Checkup {
   project: IProject;
   ui: IUserInterface;
   defaultTasks: ITaskConstructor[];
-  result: ICheckupResult;
+  result: ITaskResult[];
 
   /**
    *
@@ -36,13 +28,13 @@ export default class Checkup {
     project: IProject,
     ui: IUserInterface,
     tasks: ITaskConstructor[] = DEFAULT_TASKS,
-    result = new Result()
+    results = []
   ) {
     this.options = options;
     this.project = project;
     this.ui = ui;
     this.defaultTasks = tasks;
-    this.result = result;
+    this.result = results;
   }
 
   /**
@@ -50,7 +42,7 @@ export default class Checkup {
    *
    * Gathers and runs all tasks associated with checking up on an Ember repo.
    */
-  async run(): Promise<ICheckupResult> {
+  async run(): Promise<ITaskResult[]> {
     let tasks = new TaskList(this.project, this.result);
     let defaultTaskConstructors = this.defaultTasks;
 
@@ -58,16 +50,16 @@ export default class Checkup {
 
     this.ui.startProgress('Hang tight while we check up on your Ember project');
 
-    let result = await tasks.runTasks();
+    let taskResults = await tasks.runTasks();
 
     this.ui.stopProgress();
 
     if (!this.options.silent) {
-      let writer: IResultConsoleWriter = getConsoleWriter(result, this.options.verbose);
+      let writer = new ResultConsoleWriter(taskResults);
 
       writer.write();
     }
 
-    return result;
+    return taskResults;
   }
 }

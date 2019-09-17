@@ -4,20 +4,32 @@ const FixturifyProject = require('ember-cli/tests/helpers/fixturify-project');
 const MockUI = require('console-ui/mock');
 const globby = require('globby');
 
-import { ITaskConstructor, ITask, IProject, ICheckupResult } from '../../interfaces';
+import { ITaskConstructor, ITask, IProject, ITaskResult, IConsoleWriter } from '../../interfaces';
 import Checkup from '../../checkup';
 import Task from '../../task';
 
 const { test } = QUnit;
 
+class FakeTaskResult implements ITaskResult {
+  name!: string;
+  version!: string;
+
+  write(writer: IConsoleWriter) {
+    writer.line();
+  }
+}
+
 class FakeTask extends Task implements ITask {
-  constructor(project: IProject, result: ICheckupResult) {
+  constructor(project: IProject, result: ITaskResult[]) {
     super(project, result);
   }
 
   run() {
-    this.result.name = 'Foobar';
-    this.result.version = 'latest';
+    let result = new FakeTaskResult();
+    result.name = 'Foobar';
+    result.version = 'latest';
+
+    this.taskResults.push(result);
   }
 }
 
@@ -45,9 +57,10 @@ QUnit.module('checkup', function(hooks) {
     let tasks: ITaskConstructor[] = [FakeTask];
     let checkup = new Checkup({ silent: true }, project, new MockUI(), tasks);
 
-    let result: ICheckupResult = await checkup.run();
+    let result: ITaskResult[] = await checkup.run();
+    let taskResult = <FakeTaskResult>result.pop();
 
-    assert.equal(result.name, 'Foobar');
-    assert.equal(result.version, 'latest');
+    assert.equal(taskResult.name, 'Foobar');
+    assert.equal(taskResult.version, 'latest');
   });
 });

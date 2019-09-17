@@ -3,14 +3,14 @@ import columnify = require('columnify');
 import * as Table from 'cli-table3';
 import chalk from 'chalk';
 import * as capitalize from 'capitalize';
-import { IDictionary } from '../interfaces';
+import { IDictionary, IConsoleWriter } from '../interfaces';
 
 const BRAND = {
   heading: chalk.rgb(224, 78, 58),
   title: chalk.rgb(246, 234, 231),
 };
 
-export default class ConsoleWriter {
+export default class ConsoleWriter implements IConsoleWriter {
   columns: number;
   log: (message?: any, ...optionalParams: any[]) => void;
 

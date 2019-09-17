@@ -2,8 +2,8 @@
 import IFixturifyProject = require('ember-cli/tests/helpers/fixturify-project');
 // @ts-ignore
 import Project = require('ember-cli/lib/models/project');
-import Result from '../../result';
-import TypesTask from '../../tasks/types-task';
+import { TypesTask } from '../../tasks';
+import { TypesTaskResult } from '../../results';
 const EmberCheckupFixturifyProject = require('../helpers/EmberCheckupFixturifyProject');
 
 var module = QUnit.module;
@@ -58,17 +58,18 @@ module('types-task', function(hooks) {
     fixturifyProject.writeSync(FILE_PATH);
 
     let project = fixturifyProject.buildProjectModel();
-    const resultData = await new TypesTask(project, new Result()).run();
+    const taskResults = await new TypesTask(project, []).run();
+    const typesTaskResult = <TypesTaskResult>taskResults.pop();
 
-    assert.equal(Object.keys(resultData.types).length, 8);
-    assert.equal(resultData.types.components.length, 1);
-    assert.equal(resultData.types.controllers.length, 1);
-    assert.equal(resultData.types.helpers.length, 1);
-    assert.equal(resultData.types.mixins.length, 1);
-    assert.equal(resultData.types.models.length, 1);
-    assert.equal(resultData.types.routes.length, 1);
-    assert.equal(resultData.types.services.length, 1);
-    assert.equal(resultData.types.templates.length, 1);
+    assert.equal(Object.keys(typesTaskResult.types).length, 8);
+    assert.equal(typesTaskResult.types.components.length, 1);
+    assert.equal(typesTaskResult.types.controllers.length, 1);
+    assert.equal(typesTaskResult.types.helpers.length, 1);
+    assert.equal(typesTaskResult.types.mixins.length, 1);
+    assert.equal(typesTaskResult.types.models.length, 1);
+    assert.equal(typesTaskResult.types.routes.length, 1);
+    assert.equal(typesTaskResult.types.services.length, 1);
+    assert.equal(typesTaskResult.types.templates.length, 1);
   });
 
   test('it returns all the types found in the app', async function(assert) {
@@ -84,16 +85,17 @@ module('types-task', function(hooks) {
     fixturifyProject.writeSync(FILE_PATH);
 
     let project = fixturifyProject.buildProjectModel(Project);
-    const resultData = await new TypesTask(project, new Result()).run();
+    const taskResults = await new TypesTask(project, []).run();
+    const typesTaskResult = <TypesTaskResult>taskResults.pop();
 
-    assert.equal(Object.keys(resultData.types).length, 8);
-    assert.equal(resultData.types.components.length, 2);
-    assert.equal(resultData.types.controllers.length, 2);
-    assert.equal(resultData.types.helpers.length, 2);
-    assert.equal(resultData.types.mixins.length, 2);
-    assert.equal(resultData.types.models.length, 2);
-    assert.equal(resultData.types.routes.length, 2);
-    assert.equal(resultData.types.services.length, 2);
-    assert.equal(resultData.types.templates.length, 2);
+    assert.equal(Object.keys(typesTaskResult.types).length, 8);
+    assert.equal(typesTaskResult.types.components.length, 2);
+    assert.equal(typesTaskResult.types.controllers.length, 2);
+    assert.equal(typesTaskResult.types.helpers.length, 2);
+    assert.equal(typesTaskResult.types.mixins.length, 2);
+    assert.equal(typesTaskResult.types.models.length, 2);
+    assert.equal(typesTaskResult.types.routes.length, 2);
+    assert.equal(typesTaskResult.types.services.length, 2);
+    assert.equal(typesTaskResult.types.templates.length, 2);
   });
 });

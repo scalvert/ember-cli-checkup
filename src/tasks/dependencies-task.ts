@@ -1,5 +1,6 @@
-import { IProject, ICheckupResult, ITask, IDictionary } from '../interfaces';
+import { IProject, ITask, IDictionary, ITaskResult } from '../interfaces';
 import Task from '../task';
+import { DependenciesTaskResult } from '../results';
 
 function getDependency(dependencies: IDictionary<string>, key: string): string {
   return dependencies[key];
@@ -29,27 +30,30 @@ function emberCliAddonFilter(dependency: string) {
 }
 
 export default class DependenciesTask extends Task implements ITask {
-  constructor(project: IProject, result: ICheckupResult) {
+  constructor(project: IProject, result: ITaskResult[]) {
     super(project, result);
   }
 
   async run() {
+    let result = new DependenciesTaskResult();
     let project = this.project;
     let pkg = project.pkg;
 
-    this.result.emberLibraries['ember-source'] = getDependency(pkg.devDependencies, 'ember-source');
-    this.result.emberLibraries['ember-cli'] = getDependency(pkg.devDependencies, 'ember-cli');
-    this.result.emberLibraries['ember-data'] = getDependency(pkg.devDependencies, 'ember-data');
-    this.result.emberAddons = {
+    result.emberLibraries['ember-source'] = getDependency(pkg.devDependencies, 'ember-source');
+    result.emberLibraries['ember-cli'] = getDependency(pkg.devDependencies, 'ember-cli');
+    result.emberLibraries['ember-data'] = getDependency(pkg.devDependencies, 'ember-data');
+    result.emberAddons = {
       dependencies: getDependencies(pkg.dependencies, emberAddonFilter),
       devDependencies: getDependencies(pkg.devDependencies, emberAddonFilter),
     };
 
-    this.result.emberCliAddons = {
+    result.emberCliAddons = {
       dependencies: getDependencies(pkg.dependencies, emberCliAddonFilter),
       devDependencies: getDependencies(pkg.devDependencies, emberCliAddonFilter),
     };
 
-    return this.result;
+    this.taskResults.push(result);
+
+    return this.taskResults;
   }
 }

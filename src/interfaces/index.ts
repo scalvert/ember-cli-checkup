@@ -59,15 +59,19 @@ export interface IDependencyList {
   devDependencies: IDictionary<string>;
 }
 
-export interface ICheckupResult {
-  types: ITaskItemData;
-  tests: ITaskItemData;
-  type: ProjectType;
-  name: string;
-  version: string;
-  emberLibraries: IDictionary<string>;
-  emberAddons: IDependencyList;
-  emberCliAddons: IDependencyList;
+export interface IConsoleWriter {
+  heading: (heading: string) => void;
+  divider: () => void;
+  text: (text: string) => void;
+  indent: (spaces: number) => void;
+  line: () => void;
+  column: <T>(data: IDictionary<T>) => void;
+  table: <T>(heading: string[] | string, dict: IDictionary<T>) => void;
+  singleColumnTable: (heading: string, rowData: string[]) => void;
+}
+
+export interface ITaskResult {
+  write: (writer: IConsoleWriter) => void;
 }
 
 export interface ITaskItemData {
@@ -80,12 +84,12 @@ export interface ITaskList {
 }
 
 export interface ITask {
-  result: ICheckupResult;
+  taskResults: ITaskResult[];
   run: () => void;
 }
 
 export interface ITaskConstructor {
-  new (project: IProject, result: ICheckupResult): ITask;
+  new (project: IProject, results: ITaskResult[]): ITask;
 }
 
 export type SearchPatterns = IDictionary<string[]>;

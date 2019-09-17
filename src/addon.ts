@@ -1,5 +1,5 @@
 import Checkup from './checkup';
-import { ICommand, ICheckupResult, IOptions } from './interfaces';
+import { ICommand, IOptions, ITaskResult } from './interfaces';
 
 let command: ICommand = {
   name: 'checkup',
@@ -11,7 +11,7 @@ let command: ICommand = {
     { name: 'silent', type: Boolean, default: false, aliases: ['s'] },
   ],
 
-  run(options: IOptions): Promise<ICheckupResult> {
+  run(options: IOptions): Promise<ITaskResult[]> {
     let checkup = new Checkup(options, this.project, this.ui);
 
     return checkup.run();

@@ -2,8 +2,8 @@
 import IFixturifyProject = require('ember-cli/tests/helpers/fixturify-project');
 const FixturifyProject = require('ember-cli/tests/helpers/fixturify-project');
 
-import DependenciesTask from '../../tasks/dependencies-task';
-import Result from '../../result';
+import { DependenciesTask } from '../../tasks';
+import { DependenciesTaskResult } from '../../results';
 
 const { test } = QUnit;
 
@@ -23,12 +23,13 @@ QUnit.module('dependencies-task', function(hooks) {
 
   test('it detects ember-cli dependencies', async function(assert) {
     let project = fixturifyProject.buildProjectModel();
-    const dependenciesTaskResult = await new DependenciesTask(project, new Result()).run();
+    const results = await new DependenciesTask(project, []).run();
+    const dependencyTaskResult = <DependenciesTaskResult>results.pop();
 
-    assert.deepEqual(dependenciesTaskResult.emberCliAddons.dependencies, {
+    assert.deepEqual(dependencyTaskResult.emberCliAddons.dependencies, {
       'ember-cli-blueprint-test-helpers': 'latest',
     });
-    assert.deepEqual(dependenciesTaskResult.emberCliAddons.devDependencies, {
+    assert.deepEqual(dependencyTaskResult.emberCliAddons.devDependencies, {
       'ember-cli-string-utils': 'latest',
     });
   });

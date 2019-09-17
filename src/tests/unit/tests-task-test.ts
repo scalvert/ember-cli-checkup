@@ -1,7 +1,7 @@
 // @ts-ignore
 import IFixturifyProject = require('ember-cli/tests/helpers/fixturify-project');
-import Result from '../../result';
-import TestsTask from '../../tasks/tests-task';
+import { TestsTask } from '../../tasks';
+import { TestsTaskResult } from '../../results';
 const EmberCheckupFixturifyProject = require('../helpers/EmberCheckupFixturifyProject');
 
 var module = QUnit.module;
@@ -40,12 +40,13 @@ module('tests-task', function(hooks) {
     fixturifyProject.writeSync(FILE_PATH);
 
     let project = fixturifyProject.buildProjectModel();
-    const resultData = await new TestsTask(project, new Result()).run();
+    const taskResults = await new TestsTask(project, []).run();
+    const testsTaskResult = <TestsTaskResult>taskResults.pop();
 
-    assert.equal(Object.keys(resultData.tests).length, 3);
-    assert.equal(resultData.tests.unit.length, 2);
-    assert.equal(resultData.tests.acceptance.length, 1);
-    assert.equal(resultData.tests.integration.length, 1);
+    assert.equal(Object.keys(testsTaskResult.tests).length, 3);
+    assert.equal(testsTaskResult.tests.unit.length, 2);
+    assert.equal(testsTaskResult.tests.acceptance.length, 1);
+    assert.equal(testsTaskResult.tests.integration.length, 1);
   });
 
   test('it returns all the nested test files found in the app', async function(assert) {
@@ -78,11 +79,12 @@ module('tests-task', function(hooks) {
     fixturifyProject.writeSync(FILE_PATH);
 
     let project = fixturifyProject.buildProjectModel();
-    const resultData = await new TestsTask(project, new Result()).run();
+    const taskResults = await new TestsTask(project, []).run();
+    const testsTaskResult = <TestsTaskResult>taskResults.pop();
 
-    assert.equal(Object.keys(resultData.tests).length, 3);
-    assert.equal(resultData.tests.unit.length, 3);
-    assert.equal(resultData.tests.acceptance.length, 2);
-    assert.equal(resultData.tests.integration.length, 1);
+    assert.equal(Object.keys(testsTaskResult.tests).length, 3);
+    assert.equal(testsTaskResult.tests.unit.length, 3);
+    assert.equal(testsTaskResult.tests.acceptance.length, 2);
+    assert.equal(testsTaskResult.tests.integration.length, 1);
   });
 });

@@ -1,4 +1,4 @@
-import { ITaskList, ITask, ICheckupResult, IProject, ITaskConstructor } from './interfaces';
+import { ITaskList, ITask, IProject, ITaskConstructor, ITaskResult } from './interfaces';
 import * as pMap from 'p-map';
 
 /**
@@ -13,7 +13,7 @@ export default class TaskList implements ITaskList {
   write() {
     throw new Error('Method not implemented.');
   }
-  private result: ICheckupResult;
+  private results: ITaskResult[];
   private project: IProject;
   private tasks: ITask[];
   private defaultTasks: ITask[];
@@ -22,11 +22,11 @@ export default class TaskList implements ITaskList {
    *
    * @param project {IProject} the project model that is instantiated as part of ember-cli.
    * @param ui {IUserInterface} the UI model that is instantiated as part of ember-cli.
-   * @param result {ICheckupResult} the result object that aggregates data together for output.
+   * @param results {ITaskResult[]} the results object that aggregates data together for output.
    */
-  constructor(project: IProject, result: ICheckupResult) {
+  constructor(project: IProject, results: ITaskResult[]) {
     this.project = project;
-    this.result = result;
+    this.results = results;
     this.defaultTasks = [];
     this.tasks = [];
   }
@@ -39,7 +39,7 @@ export default class TaskList implements ITaskList {
    * @param taskConstructor {ITaskConstructor} a constructor representing a Task class
    */
   addDefault(taskConstructor: ITaskConstructor) {
-    this.defaultTasks.push(new taskConstructor(this.project, this.result));
+    this.defaultTasks.push(new taskConstructor(this.project, this.results));
   }
 
   /**
@@ -63,7 +63,7 @@ export default class TaskList implements ITaskList {
    * @param taskConstructor {ITaskConstructor} a constructor representing a Task class
    */
   add(ctor: ITaskConstructor) {
-    this.tasks.push(new ctor(this.project, this.result));
+    this.tasks.push(new ctor(this.project, this.results));
   }
 
   /**
@@ -85,6 +85,6 @@ export default class TaskList implements ITaskList {
    * @param fn {Function} the function expressing the wrapped task to run
    */
   private eachTask(fn: (task: ITask) => void) {
-    return pMap([...this.defaultTasks, ...this.tasks], fn).then(() => this.result);
+    return pMap([...this.defaultTasks, ...this.tasks], fn).then(() => this.results);
   }
 }

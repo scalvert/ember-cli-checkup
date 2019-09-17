@@ -1,4 +1,4 @@
-import { ITask, IProject, ICheckupResult } from './interfaces';
+import { ITask, IProject, ITaskResult } from './interfaces';
 
 /**
  * @class Task
@@ -9,16 +9,16 @@ import { ITask, IProject, ICheckupResult } from './interfaces';
  */
 export default abstract class Task implements ITask {
   project: IProject;
-  result: ICheckupResult;
+  taskResults: ITaskResult[];
 
   /**
    *
    * @param project {IProject} the project model that is instantiated as part of ember-cli.
-   * @param result {ICheckupResult} the result object that aggregates data together for output.
+   * @param result {ITaskResult[]} the results object that aggregates data together for output.
    */
-  constructor(project: IProject, result: ICheckupResult) {
+  constructor(project: IProject, taskResults: ITaskResult[]) {
     this.project = project;
-    this.result = result;
+    this.taskResults = taskResults;
   }
 
   run() {}
