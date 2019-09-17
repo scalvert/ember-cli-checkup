@@ -31,7 +31,7 @@ export default class VerboseResultConsoleWriter extends ConsoleWriter
     Object.keys(this.result.types).forEach(type => {
       let values = [this.result.types[type].join('\n')];
 
-      writer.table(type, values);
+      writer.singleColumnTable(type, values);
     });
 
     // write test info
@@ -40,7 +40,7 @@ export default class VerboseResultConsoleWriter extends ConsoleWriter
     Object.keys(this.result.tests).forEach(testType => {
       let values = [this.result.tests[testType].join('\n')];
 
-      writer.table(testType, values);
+      writer.singleColumnTable(testType, values);
     });
 
     writer.line();

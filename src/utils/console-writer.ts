@@ -3,6 +3,7 @@ import columnify = require('columnify');
 import * as Table from 'cli-table3';
 import chalk from 'chalk';
 import * as capitalize from 'capitalize';
+import { IDictionary } from '../interfaces';
 
 const BRAND = {
   heading: chalk.rgb(224, 78, 58),
@@ -11,8 +12,10 @@ const BRAND = {
 
 export default class ConsoleWriter {
   columns: number;
+  log: (message?: any, ...optionalParams: any[]) => void;
 
-  constructor({ columns } = process.stdout) {
+  constructor(log = console.log, { columns } = process.stdout) {
+    this.log = log;
     this.columns = typeof columns !== 'undefined' && columns < 80 ? columns : 80;
   }
 
@@ -20,15 +23,14 @@ export default class ConsoleWriter {
     this.divider();
     this.text(BRAND.heading(`${this.indent()}${heading}`));
     this.divider();
-    this.line();
   }
 
   divider() {
-    console.log('-'.repeat(this.columns));
+    this.log('='.repeat(this.columns));
   }
 
   text(text: string) {
-    console.log(text);
+    this.log(text);
   }
 
   indent(spaces: number = 2) {
@@ -36,32 +38,51 @@ export default class ConsoleWriter {
   }
 
   line() {
-    console.log(' ');
+    this.log(' ');
   }
 
-  column(data: { [key: string]: string }) {
+  column<T>(data: IDictionary<T>) {
     let keys = Object.keys(data);
 
-    console.log(
+    this.log(
       columnify(data, {
         showHeaders: false,
         minWidth: 20,
-        dataTransform: (data: string) => {
-          return keys.includes(data) ? BRAND.title(`${this.indent()}${capitalize(data)}`) : data;
+        dataTransform: (data: T) => {
+          return keys.includes(String(data))
+            ? BRAND.title(`${this.indent()}${capitalize(String(data))}`)
+            : data;
         },
       })
     );
   }
 
-  table(heading: string, rowData: string[]) {
+  table<T>(heading: string[] | string, dict: IDictionary<T>) {
+    var table: Table.HorizontalTable = new Table() as Table.HorizontalTable;
+
+    if (typeof heading === 'string') {
+      // table.options.style = Object.assign({ head: [] , border: [] }, table.options.style);
+      table.push([{ colSpan: 2, content: BRAND.heading(heading) }]);
+    } else {
+      table.options.head = heading.map(h => BRAND.heading(h));
+    }
+
+    Object.keys(dict).forEach((key: string) => {
+      table.push([key, String(dict[key])]);
+    });
+
+    this.log(table.toString());
+  }
+
+  singleColumnTable(heading: string, rowData: string[]) {
     let table: Table.HorizontalTable = new Table({
-      head: [heading],
+      head: [BRAND.heading(heading)],
     }) as Table.HorizontalTable;
 
     rowData.forEach((value: string) => {
       table.push([value]);
     });
 
-    console.log(table.toString());
+    this.log(table.toString());
   }
 }

@@ -1,9 +1,9 @@
 import ConsoleWriter from './console-writer';
 import Result from '../result';
-import { ITaskItemData, IResultConsoleWriter } from '../interfaces';
+import { ITaskItemData, IResultConsoleWriter, IDictionary } from '../interfaces';
 
-function getTaskItemTotals(data: ITaskItemData) {
-  return Object.keys(data).reduce((total: { [key: string]: number }, type: string) => {
+function getTaskItemTotals(data: ITaskItemData): IDictionary<number> {
+  return Object.keys(data).reduce((total: IDictionary<number>, type: string) => {
     total[type] = data[type].length;
 
     return total;
@@ -31,17 +31,24 @@ export default class ResultConsoleWriter extends ConsoleWriter implements IResul
       Type: this.result.type,
       Version: this.result.version,
     });
+    writer.line();
+
+    writer.heading('Depedencies');
+    writer.table('Ember Core Libraries', this.result.emberLibraries);
+    writer.line();
+
+    writer.table('Ember Addons', this.result.emberAddons.dependencies);
+    writer.table('Ember CLI Addons', this.result.emberCliAddons.dependencies);
+    writer.line();
 
     // write type info
-    writer.line();
     writer.heading('Types');
-    writer.column(getTaskItemTotals(this.result.types));
+    writer.table(['Type', 'Total Count'], getTaskItemTotals(this.result.types));
+    writer.line();
 
     // write test info
-    writer.line();
     writer.heading('Test Modules');
-    writer.column(getTaskItemTotals(this.result.tests));
-
+    writer.table(['Test Module Type', 'Total Count'], getTaskItemTotals(this.result.tests));
     writer.line();
   }
 }

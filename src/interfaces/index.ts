@@ -1,5 +1,9 @@
 export default {};
 
+export interface IDictionary<T> {
+  [key: string]: T;
+}
+
 export interface IEmberCLICommand {
   project?: any;
   ui?: any;
@@ -25,8 +29,8 @@ export interface IProject {
     name: string;
     version: string;
     keywords: string[];
-    dependencies: { [key: string]: string };
-    devDependencies: { [key: string]: string };
+    dependencies: IDictionary<string>;
+    devDependencies: IDictionary<string>;
   };
   root: string;
 }
@@ -51,8 +55,8 @@ export interface IUserInterface {
 }
 
 export interface IDependencyList {
-  dependencies: { [key: string]: string };
-  devDependencies: { [key: string]: string };
+  dependencies: IDictionary<string>;
+  devDependencies: IDictionary<string>;
 }
 
 export interface ICheckupResult {
@@ -61,7 +65,7 @@ export interface ICheckupResult {
   type: ProjectType;
   name: string;
   version: string;
-  emberLibraries: { [key: string]: string };
+  emberLibraries: IDictionary<string>;
   emberAddons: IDependencyList;
   emberCliAddons: IDependencyList;
 }
@@ -84,7 +88,7 @@ export interface ITaskConstructor {
   new (project: IProject, result: ICheckupResult): ITask;
 }
 
-export type SearchPatterns = { [key: string]: string[] };
+export type SearchPatterns = IDictionary<string[]>;
 
 export interface IResultConsoleWriter {
   write: () => void;

@@ -1,4 +1,10 @@
-import { ICheckupResult, IDependencyList, ProjectType, ITaskItemData } from './interfaces';
+import {
+  ICheckupResult,
+  IDependencyList,
+  ProjectType,
+  ITaskItemData,
+  IDictionary,
+} from './interfaces';
 
 /**
  * @class Result
@@ -11,7 +17,7 @@ export default class Result implements ICheckupResult {
   type!: ProjectType;
   name!: string;
   version!: string;
-  emberLibraries!: { [key: string]: string };
+  emberLibraries!: IDictionary<string>;
   emberAddons!: IDependencyList;
   emberCliAddons!: IDependencyList;
 

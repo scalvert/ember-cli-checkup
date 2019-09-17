@@ -1,15 +1,15 @@
-import { IProject, ICheckupResult, ITask } from '../interfaces';
+import { IProject, ICheckupResult, ITask, IDictionary } from '../interfaces';
 import Task from '../task';
 
-function getDependency(dependencies: { [key: string]: string }, key: string): string {
+function getDependency(dependencies: IDictionary<string>, key: string): string {
   return dependencies[key];
 }
 
 function getDependencies(
-  dependencies: { [key: string]: string },
+  dependencies: IDictionary<string>,
   filter: (dependency: string) => boolean
 ) {
-  return Object.entries(dependencies).reduce((orig: { [key: string]: string }, pair) => {
+  return Object.entries(dependencies).reduce((orig: IDictionary<string>, pair) => {
     let [key, value] = pair;
 
     if (filter(key)) {
