@@ -21,6 +21,12 @@ const TYPES = {
   helpers: {
     'my-helper.js': '',
   },
+  initializers: {
+    'my-initializer.js': '',
+  },
+  'instance-initializers': {
+    'my-helper.js': '',
+  },
   mixins: {
     'my-mixin.js': '',
   },
@@ -61,10 +67,12 @@ module('types-task', function(hooks) {
     const taskResults = await new TypesTask(project, []).run();
     const typesTaskResult = <TypesTaskResult>taskResults.pop();
 
-    assert.equal(Object.keys(typesTaskResult.types).length, 8);
+    assert.equal(Object.keys(typesTaskResult.types).length, 10);
     assert.equal(typesTaskResult.types.components.length, 1);
     assert.equal(typesTaskResult.types.controllers.length, 1);
     assert.equal(typesTaskResult.types.helpers.length, 1);
+    assert.equal(typesTaskResult.types.initializers.length, 1);
+    assert.equal(typesTaskResult.types['instance-initializers'].length, 1);
     assert.equal(typesTaskResult.types.mixins.length, 1);
     assert.equal(typesTaskResult.types.models.length, 1);
     assert.equal(typesTaskResult.types.routes.length, 1);
@@ -88,10 +96,12 @@ module('types-task', function(hooks) {
     const taskResults = await new TypesTask(project, []).run();
     const typesTaskResult = <TypesTaskResult>taskResults.pop();
 
-    assert.equal(Object.keys(typesTaskResult.types).length, 8);
+    assert.equal(Object.keys(typesTaskResult.types).length, 10);
     assert.equal(typesTaskResult.types.components.length, 2);
     assert.equal(typesTaskResult.types.controllers.length, 2);
     assert.equal(typesTaskResult.types.helpers.length, 2);
+    assert.equal(typesTaskResult.types.initializers.length, 2);
+    assert.equal(typesTaskResult.types['instance-initializers'].length, 2);
     assert.equal(typesTaskResult.types.mixins.length, 2);
     assert.equal(typesTaskResult.types.models.length, 2);
     assert.equal(typesTaskResult.types.routes.length, 2);

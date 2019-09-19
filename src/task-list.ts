@@ -7,15 +7,8 @@ import * as pMap from 'p-map';
  * Represents a collection of tasks to run.
  */
 export default class TaskList implements ITaskList {
-  run() {
-    throw new Error('Method not implemented.');
-  }
-  write() {
-    throw new Error('Method not implemented.');
-  }
   private results: ITaskResult[];
   private project: IProject;
-  private tasks: ITask[];
   private defaultTasks: ITask[];
 
   /**
@@ -28,7 +21,6 @@ export default class TaskList implements ITaskList {
     this.project = project;
     this.results = results;
     this.defaultTasks = [];
-    this.tasks = [];
   }
 
   /**
@@ -38,7 +30,7 @@ export default class TaskList implements ITaskList {
    *
    * @param taskConstructor {ITaskConstructor} a constructor representing a Task class
    */
-  addDefault(taskConstructor: ITaskConstructor) {
+  addTask(taskConstructor: ITaskConstructor) {
     this.defaultTasks.push(new taskConstructor(this.project, this.results));
   }
 
@@ -49,21 +41,10 @@ export default class TaskList implements ITaskList {
    *
    * @param taskConstructor {ITaskConstructor[]} an array of constructors representing a Task classes
    */
-  addDefaults(taskConstructors: ITaskConstructor[]) {
+  addTasks(taskConstructors: ITaskConstructor[]) {
     taskConstructors.forEach((taskConstructor: ITaskConstructor) => {
-      this.addDefault(taskConstructor);
+      this.addTask(taskConstructor);
     });
-  }
-
-  /**
-   * @method add
-   *
-   * Adds a task to the task list, which is executed as part of checkup.
-   *
-   * @param taskConstructor {ITaskConstructor} a constructor representing a Task class
-   */
-  add(ctor: ITaskConstructor) {
-    this.tasks.push(new ctor(this.project, this.results));
   }
 
   /**
@@ -85,6 +66,6 @@ export default class TaskList implements ITaskList {
    * @param fn {Function} the function expressing the wrapped task to run
    */
   private eachTask(fn: (task: ITask) => void) {
-    return pMap([...this.defaultTasks, ...this.tasks], fn).then(() => this.results);
+    return pMap(this.defaultTasks, fn).then(() => this.results);
   }
 }

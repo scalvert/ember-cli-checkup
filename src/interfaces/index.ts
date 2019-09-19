@@ -77,9 +77,10 @@ export interface ITaskResult {
 export interface ITaskItemData {
   [propName: string]: string[];
 }
+
 export interface ITaskList {
-  add: (task: ITaskConstructor) => void;
-  addDefault: (task: ITaskConstructor) => void;
+  addTask: (task: ITaskConstructor) => void;
+  addTasks: (tasks: ITaskConstructor[]) => void;
   runTasks: () => void;
 }
 

@@ -8,6 +8,8 @@ export default class TypesTask extends FileSearcherTask implements ITask {
       components: ['**/components/**/*.js'],
       controllers: ['**/controllers/**/*.js'],
       helpers: ['**/helpers/**/*.js'],
+      initializers: ['**/initializers/**/*.js'],
+      'instance-initializers': ['**/instance-initializers/**/*.js'],
       mixins: ['**/mixins/**/*.js'],
       models: ['**/models/**/*.js'],
       routes: ['**/routes/**/*.js'],

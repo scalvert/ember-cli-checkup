@@ -2,6 +2,7 @@ import { IUserInterface, IProject, ITaskConstructor, IOptions, ITaskResult } fro
 import TaskList from './task-list';
 import * as DefaultTasks from './tasks';
 import ResultConsoleWriter from './utils/result-console-writer';
+import Clock from './utils/clock';
 
 const DEFAULT_TASKS = <ITaskConstructor[]>(
   Object.values(DefaultTasks).filter(x => typeof x == 'function')
@@ -43,14 +44,19 @@ export default class Checkup {
    * Gathers and runs all tasks associated with checking up on an Ember repo.
    */
   async run(): Promise<ITaskResult[]> {
+    let clock = new Clock();
     let tasks = new TaskList(this.project, this.result);
     let defaultTaskConstructors = this.defaultTasks;
 
-    tasks.addDefaults(defaultTaskConstructors);
+    tasks.addTasks(defaultTaskConstructors);
+
+    clock.start();
 
     this.ui.startProgress('Hang tight while we check up on your Ember project');
 
     let taskResults = await tasks.runTasks();
+
+    clock.stop();
 
     this.ui.stopProgress();
 
@@ -58,6 +64,7 @@ export default class Checkup {
       let writer = new ResultConsoleWriter(taskResults);
 
       writer.write();
+      writer.writeDuration(clock.duration);
     }
 
     return taskResults;
