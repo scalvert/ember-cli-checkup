@@ -1,0 +1,30 @@
+import * as fs from 'fs';
+import * as parser from '@babel/parser';
+import traverse from '@babel/traverse';
+import * as globby from 'globby';
+import { IASTSearchResult } from '../interfaces';
+import ASTSearchResult from './ast-search-result';
+
+export default class AstSearcher {
+  path: string;
+
+  constructor(path: string) {
+    this.path = path;
+  }
+
+  async search(visitors: any): Promise<IASTSearchResult[]> {
+    let searchResults: IASTSearchResult[] = [];
+    let paths = await globby('*.js', { cwd: this.path });
+
+    paths.forEach(path => {
+      let searchResult = new ASTSearchResult();
+      let file: string = fs.readFileSync(path, { encoding: 'utf-8' });
+      let ast: any = parser.parse(file);
+
+      traverse(ast, visitors);
+      searchResults.push(searchResult);
+    });
+
+    return searchResults;
+  }
+}

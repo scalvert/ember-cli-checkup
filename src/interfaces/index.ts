@@ -1,3 +1,5 @@
+import { File } from '@babel/types';
+
 export default {};
 
 export interface IDictionary<T> {
@@ -94,6 +96,10 @@ export interface ITaskConstructor {
 }
 
 export type SearchPatterns = IDictionary<string[]>;
+
+export interface IASTSearchResult {
+  filePath: string;
+}
 
 export interface IResultConsoleWriter {
   write: () => void;
