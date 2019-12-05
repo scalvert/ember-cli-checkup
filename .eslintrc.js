@@ -11,6 +11,7 @@ module.exports = {
     browser: false,
     node: true,
     es6: true,
+    qunit: true,
   },
   rules: {
     'prettier/prettier': 'error',

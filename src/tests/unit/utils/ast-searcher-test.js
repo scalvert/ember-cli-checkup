@@ -107,15 +107,33 @@ QUnit.module('Utils | ast-searcher', function(hooks) {
 
     fixturifyProject.writeSync(FILE_PATH);
 
-    const visitors = {
-      Identifier(path) {
-        if (path.node.name === 'PDSCMockerShim') {
-          console.log(`Visiting: ${path}`);
-        }
-      },
-    };
+    class MyVisitor {
+      constructor() {
+        this._results = [];
+      }
 
-    const results = await searcher.search(visitors);
+      get results() {
+        return this._results;
+      }
+
+      get visitors() {
+        return {
+          Identifier: path => {
+            if (
+              path.node.name === 'PDSCMockerShim' &&
+              path.parent.type !== 'ImportDefaultSpecifier'
+            ) {
+              this._results.push(path.node.name);
+              console.log(`Visiting: ${path}`);
+            }
+          },
+        };
+      }
+    }
+
+    const myVisitor = new MyVisitor();
+
+    const results = await searcher.search(myVisitor);
 
     assert.equal(results.length, 3, 'search found correct number of files');
   });

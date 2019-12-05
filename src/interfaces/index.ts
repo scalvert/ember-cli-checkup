@@ -1,3 +1,5 @@
+import { TraverseOptions } from "@babel/traverse";
+
 // import { File } from '@babel/types';
 
 export default {};
@@ -99,6 +101,11 @@ export type SearchPatterns = IDictionary<string[]>;
 
 export interface IASTSearchResult {
   filePath: string;
+}
+
+export interface ISearchVisitor {
+  results: IASTSearchResult[];
+  visitors: TraverseOptions
 }
 
 export interface IResultConsoleWriter {
