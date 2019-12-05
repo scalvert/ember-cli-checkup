@@ -7,8 +7,8 @@
     {
       "type": "node",
       "request": "attach",
-      "name": "Attach to node process",
-      "processId": "${command:PickProcess}",
+      "name": "Debug Tests",
+      "port": 1337,
       "skipFiles": [
         "<node_internals>/**"
       ]
