@@ -5,6 +5,9 @@
 /tmp/
 /lib/
 
+# test output
+/test-app/
+
 # dependencies
 /bower_components/
 /node_modules/

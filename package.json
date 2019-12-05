@@ -18,6 +18,7 @@
     "clean": "rm -rf lib/*",
     "lint": "eslint --ext js,ts .",
     "test": "yarn build && qunit lib/tests && yarn clean",
+    "test:dev": "yarn build && qunit lib/tests",
     "prepublishOnly": "yarn build",
     "postpublish": "yarn clean"
   },

@@ -1,6 +1,6 @@
-import { ITask, IProject, ITaskResult, IASTSearchResult } from '../interfaces';
+import { ITask, IProject, ITaskResult /*, IASTSearchResult */ } from '../interfaces';
 import FileSearcherTask from '../file-searcher-task';
-import AstSearcher from '../utils/ast-searcher';
+// import AstSearcher from '../utils/ast-searcher';
 import { TestsTaskResult } from '../results';
 
 export default class TestsTask extends FileSearcherTask implements ITask {
@@ -18,15 +18,15 @@ export default class TestsTask extends FileSearcherTask implements ITask {
     let result = new TestsTaskResult();
     // result.tests = await this.searcher.search();
 
-    let searchResult: IASTSearchResult[] = [];
-    let astSearcher: AstSearcher = new AstSearcher(this.project.root);
+    // let searchResult: IASTSearchResult[] = [];
+    // let astSearcher: AstSearcher = new AstSearcher(this.project.root);
 
-    let searchResults = await astSearcher.search({
-      FunctionExpression: function(path: any) {
-        // i've found something that i want to track
-        // store the thing
-      },
-    });
+    // let searchResults = await astSearcher.search({
+    //   FunctionExpression: function(path: any) {
+    //     // i've found something that i want to track
+    //     // store the thing
+    //   },
+    // });
 
     this.taskResults.push(result);
 
