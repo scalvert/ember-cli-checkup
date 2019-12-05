@@ -7,6 +7,19 @@ interface EmberCLIFixturifyProject extends FixturifyProject {
     version: string,
     callback?: (project: FixturifyProject) => void
   ): FixturifyProject;
+
+  addDevAddon(
+    name: string,
+    version: string,
+    callback?: (project: FixturifyProject) => void
+  ): FixturifyProject;
+
+  addInRepoAddon(
+    name: string,
+    version: string,
+    callback?: (project: FixturifyProject) => void
+  ): FixturifyProject;
+
   buildProjectModel(): IProject;
   dispose: (filepath?: string) => void;
 }

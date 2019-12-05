@@ -1,4 +1,6 @@
-import { File } from '@babel/types';
+import { Node, TraverseOptions } from '@babel/traverse';
+
+// import { File } from '@babel/types';
 
 export default {};
 
@@ -99,8 +101,28 @@ export type SearchPatterns = IDictionary<string[]>;
 
 export interface IASTSearchResult {
   filePath: string;
+  nodes: Node[];
+}
+
+export interface ISearchTraverser<T> {
+  hasResults: boolean;
+  results: T;
+  visitors: TraverseOptions;
+  reset: () => void;
 }
 
 export interface IResultConsoleWriter {
   write: () => void;
+}
+export interface ITestMetrics {
+  moduleCount: number;
+  skipCount: number;
+  testCount: number;
+}
+
+export interface ITestTaskResultData {
+  application: ITestMetrics;
+  container: ITestMetrics;
+  rendering: ITestMetrics;
+  unit: ITestMetrics;
 }
