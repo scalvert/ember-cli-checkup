@@ -112,6 +112,10 @@ QUnit.module('Utils | ast-searcher', function(hooks) {
         this._results = [];
       }
 
+      clearResults() {
+        this._results = [];
+      }
+
       get results() {
         return this._results;
       }
@@ -123,8 +127,7 @@ QUnit.module('Utils | ast-searcher', function(hooks) {
               path.node.name === 'PDSCMockerShim' &&
               path.parent.type !== 'ImportDefaultSpecifier'
             ) {
-              this._results.push(path.node.name);
-              console.log(`Visiting: ${path}`);
+              this._results.push(path.node);
             }
           },
         };
@@ -135,6 +138,7 @@ QUnit.module('Utils | ast-searcher', function(hooks) {
 
     const results = await searcher.search(myVisitor);
 
-    assert.equal(results.length, 3, 'search found correct number of files');
+    assert.equal(results.size, 3, 'search found correct number of files');
+    // assert.equal(myVisitor.totalCount, 5, 'total count is correct');
   });
 });

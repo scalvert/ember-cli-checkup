@@ -1,42 +1,53 @@
 import * as fs from 'fs';
 import * as parser from '@babel/parser';
-import traverse from '@babel/traverse';
+import traverse, { Node } from '@babel/traverse';
 import * as globby from 'globby';
-import { IASTSearchResult, ISearchVisitor } from '../interfaces';
-// import ASTSearchResult from './ast-search-result';
+import * as path from 'path';
+import { ISearchVisitor } from '../interfaces';
+import astCache from './ast-cache';
 
 const PARSE_OPTIONS = { allowImportExportEverywhere: true };
 
 export default class AstSearcher {
-  path: string;
+  rootSearchPath: string;
+  globPatterns: Array<string>;
 
   /**
-   * @param path The root path in which the searcher will begin the search.
+   * @param rootSearchPath The root path in which the searcher will begin the search.
+   * @param globPatterns The array of file search patterns
    */
-  constructor(path: string) {
-    this.path = path;
+  constructor(rootSearchPath: string, globPatterns: Array<string> = ['**/*.js']) {
+    this.rootSearchPath = rootSearchPath;
+    this.globPatterns = globPatterns;
   }
 
-  /**
-   * Notes:
-   *  Possibly refactor the SearchVisitor pattern to track an array of "path" objects from Babel.
-   *  This would allow the search method below to associate a file to an array of results in that file.
-   *  We would maintain a standardized result inside of the search method, which is an array of { fileName: string, nodes: [] }.
-   */
-  async search(searchVisitor: ISearchVisitor): Promise<IASTSearchResult[]> {
-    // let searchResults: IASTSearchResult[] = [];
-    let paths = await globby('**/*.js', { cwd: this.path });
+  async search(searchVisitor: ISearchVisitor): Promise<Map<string, Node[]>> {
+    let searchResultMap = new Map<string, Node[]>();
+    let paths = await globby(this.globPatterns, { cwd: this.rootSearchPath });
 
+    paths.forEach(filePath => {
+      let fullFilePath: string = path.join(this.rootSearchPath, filePath);
+      let file: string = fs.readFileSync(fullFilePath, {
+        encoding: 'utf-8',
+      });
 
-    paths.forEach(path => {
-      // let searchResult = new ASTSearchResult();
-      let file: string = fs.readFileSync( this.path + '/' + path, { encoding: 'utf-8' });
-      let ast: any = parser.parse(file, PARSE_OPTIONS);
+      if (!astCache.has(fullFilePath)) {
+        astCache.set(fullFilePath, parser.parse(file, PARSE_OPTIONS));
+      }
+
+      let ast: any = astCache.get(fullFilePath);
 
       traverse(ast, searchVisitor.visitors);
-      // searchResults.push(searchResult);
+
+      if (searchVisitor.results.length) {
+        let nodes: Node[] = searchVisitor.results;
+
+        searchResultMap.set(filePath, nodes);
+
+        searchVisitor.clearResults();
+      }
     });
 
-    return searchVisitor.results;
+    return searchResultMap;
   }
 }

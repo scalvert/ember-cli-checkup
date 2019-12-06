@@ -1,4 +1,4 @@
-import { TraverseOptions } from "@babel/traverse";
+import { Node, TraverseOptions } from "@babel/traverse";
 
 // import { File } from '@babel/types';
 
@@ -101,11 +101,13 @@ export type SearchPatterns = IDictionary<string[]>;
 
 export interface IASTSearchResult {
   filePath: string;
+  nodes: Node[];
 }
 
 export interface ISearchVisitor {
-  results: IASTSearchResult[];
-  visitors: TraverseOptions
+  results: Node[];
+  visitors: TraverseOptions;
+  clearResults: () => void;
 }
 
 export interface IResultConsoleWriter {
