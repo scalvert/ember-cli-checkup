@@ -42,7 +42,7 @@ export default class AstSearcher {
       if (searchVisitor.results.length) {
         let nodes: Node[] = searchVisitor.results;
 
-        searchResultMap.set(filePath, nodes);
+        searchResultMap.set(fullFilePath, nodes);
 
         searchVisitor.clearResults();
       }
