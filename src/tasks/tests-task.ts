@@ -4,7 +4,7 @@ import AstSearcher from '../utils/ast-searcher';
 import { ISearchTraverser } from '../interfaces';
 import { Node, NodePath } from '@babel/traverse';
 
-interface ITestVisitorsFileResult {
+interface ITestTraverserFileResult {
   type: TestType;
   invocationMap: Map<string, Node[]>;
 }
@@ -26,7 +26,7 @@ const TEST_TYPE_MAP = {
 
 const INVOCATIONS = ['test', 'module', 'skip'];
 
-class TestTraverser implements ISearchTraverser<ITestVisitorsFileResult> {
+class TestTraverser implements ISearchTraverser<ITestTraverserFileResult> {
   _results: Map<string, Node[]>;
   _testType: TestType;
 
