@@ -18,6 +18,9 @@ export default abstract class Task implements ITask {
    */
   constructor(project: IProject, taskResults: ITaskResult[]) {
     this.project = project;
+
+    // TODO: need to revist "why" we need to pass in the taskResults rather than using the result of `run`
+    // ! This can cause rest result leakage between tests, i.e. any subsequent test can modify the restulf of a prior test (malicious or not)
     this.taskResults = taskResults;
   }
 

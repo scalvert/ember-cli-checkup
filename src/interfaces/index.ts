@@ -1,4 +1,4 @@
-import { Node, TraverseOptions } from "@babel/traverse";
+import { Node, TraverseOptions } from '@babel/traverse';
 
 // import { File } from '@babel/types';
 
@@ -104,12 +104,25 @@ export interface IASTSearchResult {
   nodes: Node[];
 }
 
-export interface ISearchVisitor {
-  results: Node[];
+export interface ISearchTraverser<T> {
+  hasResults: boolean;
+  results: T;
   visitors: TraverseOptions;
-  clearResults: () => void;
+  reset: () => void;
 }
 
 export interface IResultConsoleWriter {
   write: () => void;
+}
+export interface ITestMetrics {
+  moduleCount: number;
+  skipCount: number;
+  testCount: number;
+}
+
+export interface ITestTaskResultData {
+  application: ITestMetrics;
+  container: ITestMetrics;
+  rendering: ITestMetrics;
+  unit: ITestMetrics;
 }

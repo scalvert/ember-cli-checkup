@@ -15,6 +15,7 @@ import AstSearcher from '../../../utils/ast-searcher';
 //   };
 // };
 
+// TODO: convert to TS
 QUnit.module('Utils | ast-searcher', function(hooks) {
   const FILE_PATH = 'test-app';
 
@@ -27,10 +28,10 @@ QUnit.module('Utils | ast-searcher', function(hooks) {
   });
 
   hooks.afterEach(function() {
-    // fixturifyProject.dispose(FILE_PATH);
+    fixturifyProject.dispose(FILE_PATH);
   });
 
-  test('foo', async function(assert) {
+  test('it finds files/nodes in a basic test', async function(assert) {
     /**
      * Setup test files with references to PDSCMockerShim
      */
@@ -112,8 +113,12 @@ QUnit.module('Utils | ast-searcher', function(hooks) {
         this._results = [];
       }
 
-      clearResults() {
+      reset() {
         this._results = [];
+      }
+
+      get hasResults() {
+        return !!this._results.length;
       }
 
       get results() {
@@ -139,6 +144,5 @@ QUnit.module('Utils | ast-searcher', function(hooks) {
     const results = await searcher.search(myVisitor);
 
     assert.equal(results.size, 3, 'search found correct number of files');
-    // assert.equal(myVisitor.totalCount, 5, 'total count is correct');
   });
 });

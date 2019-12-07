@@ -1,9 +1,9 @@
 import * as fs from 'fs';
 import * as parser from '@babel/parser';
-import traverse, { Node } from '@babel/traverse';
+import traverse from '@babel/traverse';
 import * as globby from 'globby';
 import * as path from 'path';
-import { ISearchVisitor } from '../interfaces';
+import { ISearchTraverser } from '../interfaces';
 import astCache from './ast-cache';
 
 const PARSE_OPTIONS = { allowImportExportEverywhere: true };
@@ -21,8 +21,8 @@ export default class AstSearcher {
     this.globPatterns = globPatterns;
   }
 
-  async search(searchVisitor: ISearchVisitor): Promise<Map<string, Node[]>> {
-    let searchResultMap = new Map<string, Node[]>();
+  async search<T>(searchVisitor: ISearchTraverser<T>): Promise<Map<string, T>> {
+    let searchResultMap = new Map<string, T>();
     let paths = await globby(this.globPatterns, { cwd: this.rootSearchPath });
 
     paths.forEach(filePath => {
@@ -39,12 +39,12 @@ export default class AstSearcher {
 
       traverse(ast, searchVisitor.visitors);
 
-      if (searchVisitor.results.length) {
-        let nodes: Node[] = searchVisitor.results;
+      if (searchVisitor.hasResults) {
+        let nodes: T = searchVisitor.results;
 
         searchResultMap.set(fullFilePath, nodes);
 
-        searchVisitor.clearResults();
+        searchVisitor.reset();
       }
     });
 
