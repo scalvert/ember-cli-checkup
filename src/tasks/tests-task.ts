@@ -1,8 +1,9 @@
+import { Node, NodePath } from '@babel/traverse';
 import { ITask, IProject, ITaskResult } from '../interfaces';
 import Task from '../task';
 import AstSearcher from '../utils/ast-searcher';
 import { ISearchTraverser } from '../interfaces';
-import { Node, NodePath } from '@babel/traverse';
+import JavaScriptTraverser from '../utils/javascript-traverser';
 
 interface ITestTraverserFileResult {
   type: TestType;
@@ -26,11 +27,14 @@ const TEST_TYPE_MAP = {
 
 const INVOCATIONS = ['test', 'module', 'skip'];
 
-class TestTraverser implements ISearchTraverser<ITestTraverserFileResult> {
+class TestTraverser extends JavaScriptTraverser
+  implements ISearchTraverser<ITestTraverserFileResult> {
   _results: Map<string, Node[]>;
   _testType: TestType;
 
   constructor() {
+    super();
+
     this._results = new Map<string, Node[]>();
     this._testType = TestType.Unit;
   }

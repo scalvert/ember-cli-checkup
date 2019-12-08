@@ -1,6 +1,7 @@
 const { test } = QUnit;
 const EmberCheckupFixturifyProject = require('../../helpers/EmberCheckupFixturifyProject');
 import AstSearcher from '../../../utils/ast-searcher';
+import JavaScriptTraverser from '../../../utils/javascript-traverser';
 
 // const getCircularReplacer = () => {
 //   const seen = new WeakSet();
@@ -108,8 +109,10 @@ QUnit.module('Utils | ast-searcher', function(hooks) {
 
     fixturifyProject.writeSync(FILE_PATH);
 
-    class MyVisitor {
+    class MyVisitor extends JavaScriptTraverser {
       constructor() {
+        super();
+
         this._results = [];
       }
 

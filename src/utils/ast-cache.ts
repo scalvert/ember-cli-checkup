@@ -1,15 +1,21 @@
-class AstCache {
-  cache: Map<string, any>;
+import { File } from '@babel/types';
+import { AST } from '@glimmer/syntax';
+
+/**
+ * Allows for caching already processed AST for subsequent access.
+ */
+class AstCache<T> {
+  cache: Map<string, T>;
 
   constructor() {
-    this.cache = new Map<string, any>();
+    this.cache = new Map<string, T>();
   }
 
   get(filePath: string) {
-    return this.cache.get(filePath);
+    return this.cache.get(filePath)!;
   }
 
-  set(filePath: string, ast: any) {
+  set(filePath: string, ast: T) {
     this.cache.set(filePath, ast);
   }
 
@@ -18,4 +24,5 @@ class AstCache {
   }
 }
 
-export default new AstCache();
+export const javascriptAstCache = new AstCache<File>();
+export const handlebarsAstCache = new AstCache<AST.Template>();

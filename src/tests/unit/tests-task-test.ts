@@ -121,6 +121,7 @@ module('tests-task', function(hooks) {
     let project = fixturifyProject.buildProjectModel();
     const taskResults = await new TestsTask(project, []).run();
     console.log(taskResults);
+    assert.ok(true);
     // const testsTaskResult = <TestsTaskResult>taskResults.pop();
 
     // const {

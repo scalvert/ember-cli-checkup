@@ -1,16 +1,12 @@
-import { Node, TraverseOptions } from '@babel/traverse';
-
-// import { File } from '@babel/types';
+import { TraverseOptions } from '@babel/traverse';
 
 export default {};
 
-export interface IDictionary<T> {
-  [key: string]: T;
-}
-
-export interface IEmberCLICommand {
-  project?: any;
-  ui?: any;
+export const enum ProjectType {
+  App = 'application',
+  Addon = 'addon',
+  Engine = 'engine',
+  Unknown = 'unknown',
 }
 
 export interface ICommand extends IEmberCLICommand {
@@ -20,6 +16,31 @@ export interface ICommand extends IEmberCLICommand {
   works: string;
   availableOptions: object[];
   run: (options: object) => {};
+}
+
+export interface IConsoleWriter {
+  heading: (heading: string) => void;
+  divider: () => void;
+  text: (text: string) => void;
+  indent: (spaces: number) => void;
+  line: () => void;
+  column: <T>(data: IDictionary<T>) => void;
+  table: <T>(heading: string[] | string, dict: IDictionary<T>) => void;
+  singleColumnTable: (heading: string, rowData: string[]) => void;
+}
+
+export interface IDependencyList {
+  dependencies: IDictionary<string>;
+  devDependencies: IDictionary<string>;
+}
+
+export interface IDictionary<T> {
+  [key: string]: T;
+}
+
+export interface IEmberCLICommand {
+  project?: any;
+  ui?: any;
 }
 
 export interface IOptions {
@@ -39,11 +60,16 @@ export interface IProject {
   root: string;
 }
 
-export const enum ProjectType {
-  App = 'application',
-  Addon = 'addon',
-  Engine = 'engine',
-  Unknown = 'unknown',
+export interface IResultConsoleWriter {
+  write: () => void;
+}
+
+export interface ISearchTraverser<T> {
+  hasResults: boolean;
+  results: T;
+  visitors: TraverseOptions;
+  traverseAst: (filePath: string) => void;
+  reset: () => void;
 }
 
 export interface ISpinner {
@@ -52,30 +78,13 @@ export interface ISpinner {
   stop: () => void;
 }
 
-export interface IUserInterface {
-  writeLine: (line: string) => void;
-  startProgress: (message: string) => void;
-  stopProgress: () => void;
+export interface ITask {
+  taskResults: ITaskResult[];
+  run: () => void;
 }
 
-export interface IDependencyList {
-  dependencies: IDictionary<string>;
-  devDependencies: IDictionary<string>;
-}
-
-export interface IConsoleWriter {
-  heading: (heading: string) => void;
-  divider: () => void;
-  text: (text: string) => void;
-  indent: (spaces: number) => void;
-  line: () => void;
-  column: <T>(data: IDictionary<T>) => void;
-  table: <T>(heading: string[] | string, dict: IDictionary<T>) => void;
-  singleColumnTable: (heading: string, rowData: string[]) => void;
-}
-
-export interface ITaskResult {
-  write: (writer: IConsoleWriter) => void;
+export interface ITaskConstructor {
+  new (project: IProject, results: ITaskResult[]): ITask;
 }
 
 export interface ITaskItemData {
@@ -88,32 +97,10 @@ export interface ITaskList {
   runTasks: () => void;
 }
 
-export interface ITask {
-  taskResults: ITaskResult[];
-  run: () => void;
+export interface ITaskResult {
+  write: (writer: IConsoleWriter) => void;
 }
 
-export interface ITaskConstructor {
-  new (project: IProject, results: ITaskResult[]): ITask;
-}
-
-export type SearchPatterns = IDictionary<string[]>;
-
-export interface IASTSearchResult {
-  filePath: string;
-  nodes: Node[];
-}
-
-export interface ISearchTraverser<T> {
-  hasResults: boolean;
-  results: T;
-  visitors: TraverseOptions;
-  reset: () => void;
-}
-
-export interface IResultConsoleWriter {
-  write: () => void;
-}
 export interface ITestMetrics {
   moduleCount: number;
   skipCount: number;
@@ -126,3 +113,11 @@ export interface ITestTaskResultData {
   rendering: ITestMetrics;
   unit: ITestMetrics;
 }
+
+export interface IUserInterface {
+  writeLine: (line: string) => void;
+  startProgress: (message: string) => void;
+  stopProgress: () => void;
+}
+
+export type SearchPatterns = IDictionary<string[]>;
