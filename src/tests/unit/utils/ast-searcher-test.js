@@ -3,8 +3,38 @@ const DisposableFixturifyProject = require('../../helpers/DisposableFixturifyPro
 import AstSearcher from '../../../searchers/ast-searcher';
 import JavaScriptTraverser from '../../../traversers/javascript-traverser';
 
+class CustomTraverser extends JavaScriptTraverser {
+  constructor() {
+    super();
+
+    this._nodes = [];
+  }
+
+  reset() {
+    this._nodes = [];
+  }
+
+  get hasResults() {
+    return !!this._nodes.length;
+  }
+
+  get results() {
+    return this._nodes;
+  }
+
+  get visitors() {
+    return {
+      Identifier: path => {
+        if (path.node.name === 'PDSCMockerShim' && path.parent.type !== 'ImportDefaultSpecifier') {
+          this._nodes.push(path.node);
+        }
+      },
+    };
+  }
+}
+
 // TODO: convert to TS
-QUnit.module('Utils | ast-searcher', function(hooks) {
+QUnit.module('ast-searcher', function(hooks) {
   const FILE_PATH = 'test-app';
 
   let fixturifyProject;
@@ -19,10 +49,46 @@ QUnit.module('Utils | ast-searcher', function(hooks) {
     fixturifyProject.dispose(FILE_PATH);
   });
 
-  test('it finds files/nodes in a basic test', async function(assert) {
-    /**
-     * Setup test files with references to PDSCMockerShim
-     */
+  test('it finds no results for empty content', async function(assert) {
+    const results = await searcher.search(new CustomTraverser());
+
+    assert.equal(results.size, 0);
+  });
+
+  test('it finds no results when traverser pattern not found', async function(assert) {
+    fixturifyProject.files = Object.assign(fixturifyProject.files, {
+      tests: {
+        unit: {
+          'foo-unit-test.js': `
+            import { module } from 'qunit';
+
+            module('Unit | foo/bar', function(hooks) {
+              hooks.before(function() {
+                this.contactsMocks = foo();
+              });
+            });
+          `,
+          'bar-unit-test.js': `
+            import { module } from 'qunit';
+
+            module('Unit | foo/bar', function(hooks) {
+              hooks.before(function() {
+                this.contactsMocks = {};
+              });
+            });
+          `,
+        },
+      },
+    });
+
+    fixturifyProject.writeSync(FILE_PATH);
+
+    const results = await searcher.search(new CustomTraverser());
+
+    assert.equal(results.size, 0);
+  });
+
+  test('it finds files/nodes when traverser pattern found', async function(assert) {
     fixturifyProject.files = Object.assign(fixturifyProject.files, {
       tests: {
         helpers: {
@@ -96,43 +162,12 @@ QUnit.module('Utils | ast-searcher', function(hooks) {
 
     fixturifyProject.writeSync(FILE_PATH);
 
-    class MyVisitor extends JavaScriptTraverser {
-      constructor() {
-        super();
+    const results = await searcher.search(new CustomTraverser());
 
-        this._results = [];
-      }
+    let nodeCount = 0;
+    results.forEach(value => (nodeCount += value.length));
 
-      reset() {
-        this._results = [];
-      }
-
-      get hasResults() {
-        return !!this._results.length;
-      }
-
-      get results() {
-        return this._results;
-      }
-
-      get visitors() {
-        return {
-          Identifier: path => {
-            if (
-              path.node.name === 'PDSCMockerShim' &&
-              path.parent.type !== 'ImportDefaultSpecifier'
-            ) {
-              this._results.push(path.node);
-            }
-          },
-        };
-      }
-    }
-
-    const myVisitor = new MyVisitor();
-
-    const results = await searcher.search(myVisitor);
-
-    assert.equal(results.size, 3, 'search found correct number of files');
+    assert.equal(results.size, 2);
+    assert.equal(nodeCount, 3);
   });
 });
