@@ -9,9 +9,7 @@
       "request": "attach",
       "name": "Debug Tests",
       "port": 1337,
-      "skipFiles": [
-        "<node_internals>/**"
-      ]
-    },
+      "skipFiles": ["<node_internals>/**"]
+    }
   ]
 }

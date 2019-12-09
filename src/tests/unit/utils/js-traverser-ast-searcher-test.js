@@ -3,7 +3,7 @@ const DisposableFixturifyProject = require('../../helpers/DisposableFixturifyPro
 import AstSearcher from '../../../searchers/ast-searcher';
 import JavaScriptTraverser from '../../../traversers/javascript-traverser';
 
-class CustomTraverser extends JavaScriptTraverser {
+class CustomJavaScriptTraverser extends JavaScriptTraverser {
   constructor() {
     super();
 
@@ -33,8 +33,7 @@ class CustomTraverser extends JavaScriptTraverser {
   }
 }
 
-// TODO: convert to TS
-QUnit.module('ast-searcher', function(hooks) {
+QUnit.module('ast-searcher using JavaScriptTraverser', function(hooks) {
   const FILE_PATH = 'test-app';
 
   let fixturifyProject;
@@ -50,7 +49,7 @@ QUnit.module('ast-searcher', function(hooks) {
   });
 
   test('it finds no results for empty content', async function(assert) {
-    const results = await searcher.search(new CustomTraverser());
+    const results = await searcher.search(new CustomJavaScriptTraverser());
 
     assert.equal(results.size, 0);
   });
@@ -83,7 +82,7 @@ QUnit.module('ast-searcher', function(hooks) {
 
     fixturifyProject.writeSync(FILE_PATH);
 
-    const results = await searcher.search(new CustomTraverser());
+    const results = await searcher.search(new CustomJavaScriptTraverser());
 
     assert.equal(results.size, 0);
   });
@@ -159,7 +158,7 @@ QUnit.module('ast-searcher', function(hooks) {
 
     fixturifyProject.writeSync(FILE_PATH);
 
-    const results = await searcher.search(new CustomTraverser());
+    const results = await searcher.search(new CustomJavaScriptTraverser());
 
     let nodeCount = 0;
     results.forEach(value => (nodeCount += value.length));
