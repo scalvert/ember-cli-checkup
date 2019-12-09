@@ -1,20 +1,7 @@
 const { test } = QUnit;
 const EmberCheckupFixturifyProject = require('../../helpers/EmberCheckupFixturifyProject');
-import AstSearcher from '../../../utils/ast-searcher';
-import JavaScriptTraverser from '../../../utils/javascript-traverser';
-
-// const getCircularReplacer = () => {
-//   const seen = new WeakSet();
-//   return (key, value) => {
-//     if (typeof value === 'object' && value !== null) {
-//       if (seen.has(value)) {
-//         return;
-//       }
-//       seen.add(value);
-//     }
-//     return value;
-//   };
-// };
+import AstSearcher from '../../../searchers/ast-searcher';
+import JavaScriptTraverser from '../../../traversers/javascript-traverser';
 
 // TODO: convert to TS
 QUnit.module('Utils | ast-searcher', function(hooks) {

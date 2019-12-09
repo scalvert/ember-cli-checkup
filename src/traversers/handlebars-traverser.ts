@@ -1,6 +1,6 @@
 import { AST, traverse, preprocess } from '@glimmer/syntax';
-import { handlebarsAstCache as astCache } from './ast-cache';
-import getFileContents from './get-file-contents';
+import { handlebarsAstCache as astCache } from '../utils/ast-cache';
+import getFileContents from '../utils/get-file-contents';
 
 /**
  * Provides an abstract implementation of a SearchTraverser aimed at

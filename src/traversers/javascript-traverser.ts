@@ -1,8 +1,8 @@
 // import { File } from '@babel/types';
 import * as parser from '@babel/parser';
 import traverse from '@babel/traverse';
-import { javascriptAstCache as astCache } from './ast-cache';
-import getFileContents from './get-file-contents';
+import { javascriptAstCache as astCache } from '../utils/ast-cache';
+import getFileContents from '../utils/get-file-contents';
 
 const PARSE_OPTIONS = { allowImportExportEverywhere: true };
 
