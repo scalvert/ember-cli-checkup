@@ -1,5 +1,5 @@
 import { Node, NodePath } from '@babel/traverse';
-import { ITask, IProject, ITaskResult } from '../interfaces';
+import { ITask, IProject, ITaskResult, ITestMetrics } from '../interfaces';
 import Task from '../task';
 import AstSearcher from '../utils/ast-searcher';
 import { ISearchTraverser } from '../interfaces';
@@ -11,10 +11,10 @@ interface ITestTraverserFileResult {
 }
 
 enum TestType {
-  Application = 'Application',
-  Container = 'Container',
-  Rendering = 'Rendering',
-  Unit = 'Unit',
+  Application = 'application',
+  Container = 'container',
+  Rendering = 'rendering',
+  Unit = 'unit',
 }
 
 const TEST_TYPE_MAP = {
@@ -90,13 +90,47 @@ export default class TestsTask extends Task implements ITask {
     super(project, result);
   }
 
+  /**
+   * Returns the Node count of the individual test metrics from the ast search result.
+   * Possible Metrics - moduleCount, skipCount, testCount
+   * @param invocationMap
+   * @param metricType
+   */
+  getTestMetricCount(invocationMap: Map<string, Node[]>, metricType: string) {
+    const metricValue = invocationMap.get(metricType);
+    return metricValue ? metricValue.length : 0;
+  }
+
+  /**
+   * Returns the result from the AST searcher into the TestsTaskResult format
+   * @param testResults
+   */
+  getTransformedResult(
+    testResults: Map<string, { type: string; invocationMap: Map<string, Node[]> }>
+  ) {
+    const result = {
+      data: {},
+    };
+    const resultData: { [key: string]: ITestMetrics } = result.data;
+
+    for (const [, value] of testResults.entries()) {
+      resultData[value.type.toLowerCase()] = {
+        moduleCount: this.getTestMetricCount(value.invocationMap, 'module'),
+        skipCount: this.getTestMetricCount(value.invocationMap, 'skip'),
+        testCount: this.getTestMetricCount(value.invocationMap, 'test'),
+      };
+    }
+
+    return result;
+  }
+
   async run() {
     let astSearcher: AstSearcher = new AstSearcher(this.project.root, ['**/tests/**/*.js']);
 
     const testVisitor = new TestTraverser();
     const testResults = await astSearcher.search(testVisitor);
 
-    // TODO: Need to finish this transform into the proper return type
-    return testResults;
+    // Transform the result into TestsTaskResult format
+    return this.getTransformedResult(testResults);
   }
 }

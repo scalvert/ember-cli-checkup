@@ -1,4 +1,4 @@
-import { File } from '@babel/types';
+// import { File } from '@babel/types';
 import * as parser from '@babel/parser';
 import traverse from '@babel/traverse';
 import { javascriptAstCache as astCache } from './ast-cache';
@@ -21,7 +21,7 @@ export default abstract class JavaScriptTraverser {
       astCache.set(fullFilePath, parser.parse(this.fileContents, PARSE_OPTIONS));
     }
 
-    let ast: File = astCache.get(fullFilePath);
+    let ast: any = astCache.get(fullFilePath);
 
     traverse(ast, this.visitors);
   }

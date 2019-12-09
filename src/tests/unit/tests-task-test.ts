@@ -1,7 +1,7 @@
 // @ts-ignore
 import IFixturifyProject = require('ember-cli/tests/helpers/fixturify-project');
 import { TestsTask } from '../../tasks';
-// import { TestsTaskResult } from '../../results';
+import { TestsTaskResult } from '../../results';
 const EmberCheckupFixturifyProject = require('../helpers/EmberCheckupFixturifyProject');
 
 var module = QUnit.module;
@@ -64,6 +64,12 @@ module('tests-task', function(hooks) {
                 test('bar', function(assert) {
                   assert.ok(true);
                 });
+                skip('biz', function(assert) {
+                  assert.ok(true);
+                });
+                test('barbiz', function(assert) {
+                  assert.ok(true);
+                });
               });
             `,
           },
@@ -119,35 +125,32 @@ module('tests-task', function(hooks) {
     fixturifyProject.writeSync(FILE_PATH);
 
     let project = fixturifyProject.buildProjectModel();
-    const taskResults = await new TestsTask(project, []).run();
-    console.log(taskResults);
-    assert.ok(true);
-    // const testsTaskResult = <TestsTaskResult>taskResults.pop();
+    const taskResults = <TestsTaskResult>await new TestsTask(project, []).run();
 
-    // const {
-    //   data: {
-    //     application: applicationData,
-    //     container: containerData,
-    //     rendering: renderingData,
-    //     unit: unitData,
-    //   },
-    // } = testsTaskResult;
+    const {
+      data: {
+        application: applicationData,
+        container: containerData,
+        rendering: renderingData,
+        unit: unitData,
+      },
+    } = taskResults;
 
-    // assert.equal(applicationData.moduleCount, 1, 'application module count is correct');
-    // assert.equal(applicationData.skipCount, 0, 'application skip count is correct');
-    // assert.equal(applicationData.testCount, 1, 'application test count is correct');
+    assert.equal(applicationData.moduleCount, 1, 'application module count is correct');
+    assert.equal(applicationData.skipCount, 0, 'application skip count is correct');
+    assert.equal(applicationData.testCount, 1, 'application test count is correct');
 
-    // assert.equal(containerData.moduleCount, 1, 'container module count is correct');
-    // assert.equal(containerData.skipCount, 0, 'container skip count is correct');
-    // assert.equal(containerData.testCount, 2, 'container test count is correct');
+    assert.equal(containerData.moduleCount, 1, 'container module count is correct');
+    assert.equal(containerData.skipCount, 0, 'container skip count is correct');
+    assert.equal(containerData.testCount, 2, 'container test count is correct');
 
-    // assert.equal(renderingData.moduleCount, 1, 'rendering module count is correct');
-    // assert.equal(renderingData.skipCount, 0, 'rendering skip count is correct');
-    // assert.equal(renderingData.testCount, 1, 'rendering test count is correct');
+    assert.equal(renderingData.moduleCount, 1, 'rendering module count is correct');
+    assert.equal(renderingData.skipCount, 0, 'rendering skip count is correct');
+    assert.equal(renderingData.testCount, 1, 'rendering test count is correct');
 
-    // assert.equal(unitData.moduleCount, 1, 'unit module count is correct');
-    // assert.equal(unitData.skipCount, 0, 'unit skip count is correct');
-    // assert.equal(unitData.testCount, 1, 'unit test count is correct');
+    assert.equal(unitData.moduleCount, 1, 'unit module count is correct');
+    assert.equal(unitData.skipCount, 1, 'unit skip count is correct');
+    assert.equal(unitData.testCount, 2, 'unit test count is correct');
   });
 
   // test('it returns all the nested test files found in the app', async function(assert) {
