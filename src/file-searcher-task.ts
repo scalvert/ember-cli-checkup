@@ -1,5 +1,5 @@
 import { ITask, IProject, SearchPatterns, ITaskResult } from './interfaces';
-import FileSearcher from './utils/file-searcher';
+import FileSearcher from './searchers/file-searcher';
 import Task from './task';
 
 /**

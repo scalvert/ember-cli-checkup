@@ -20,7 +20,7 @@ interface EmberCLIFixturifyProject extends FixturifyProject {
     callback?: (project: FixturifyProject) => void
   ): FixturifyProject;
 
-  buildProjectModel(): IProject;
+  buildProjectModel(ProjectClass?: new () => IProject): IProject;
   dispose: (filepath?: string) => void;
 }
 

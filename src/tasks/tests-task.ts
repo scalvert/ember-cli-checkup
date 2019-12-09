@@ -1,9 +1,8 @@
 import { Node, NodePath } from '@babel/traverse';
-import { ITask, IProject, ITaskResult, ITestMetrics } from '../interfaces';
+import { ITask, IProject, ITaskResult, ITestMetrics, ISearchTraverser } from '../interfaces';
 import Task from '../task';
-import AstSearcher from '../utils/ast-searcher';
-import { ISearchTraverser } from '../interfaces';
-import JavaScriptTraverser from '../utils/javascript-traverser';
+import AstSearcher from '../searchers/ast-searcher';
+import JavaScriptTraverser from '../traversers/javascript-traverser';
 
 interface ITestTraverserFileResult {
   type: TestType;

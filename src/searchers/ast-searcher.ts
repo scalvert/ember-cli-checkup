@@ -1,12 +1,6 @@
-import * as fs from 'fs';
-import * as parser from '@babel/parser';
-import traverse from '@babel/traverse';
-import * as globby from 'globby';
 import * as path from 'path';
+import * as globby from 'globby';
 import { ISearchTraverser } from '../interfaces';
-import { javascriptAstCache } from './ast-cache';
-
-const PARSE_OPTIONS = { allowImportExportEverywhere: true };
 
 export default class AstSearcher {
   rootSearchPath: string;
@@ -21,30 +15,27 @@ export default class AstSearcher {
     this.globPatterns = globPatterns;
   }
 
-  async search<T>(searchVisitor: ISearchTraverser<T>): Promise<Map<string, T>> {
+  /**
+   * Will perform a search against files identified by the classes provided glob pattern.
+   * Utilizes the supplied ISearchTraverser to operate against each file.
+   *
+   * @param searchTraverser {ISearchTraverser} The provided traverser to operate against each file in the class' glob pattern.
+   */
+  async search<T>(searchTraverser: ISearchTraverser<T>): Promise<Map<string, T>> {
     let searchResultMap = new Map<string, T>();
     let paths = await globby(this.globPatterns, { cwd: this.rootSearchPath });
 
     paths.forEach(filePath => {
       let fullFilePath: string = path.join(this.rootSearchPath, filePath);
-      let file: string = fs.readFileSync(fullFilePath, {
-        encoding: 'utf-8',
-      });
 
-      if (!javascriptAstCache.has(fullFilePath)) {
-        javascriptAstCache.set(fullFilePath, parser.parse(file, PARSE_OPTIONS));
-      }
+      searchTraverser.traverseAst(fullFilePath);
 
-      let ast: any = javascriptAstCache.get(fullFilePath);
-
-      traverse(ast, searchVisitor.visitors);
-
-      if (searchVisitor.hasResults) {
-        let nodes: T = searchVisitor.results;
+      if (searchTraverser.hasResults) {
+        let nodes: T = searchTraverser.results;
 
         searchResultMap.set(fullFilePath, nodes);
 
-        searchVisitor.reset();
+        searchTraverser.reset();
       }
     });
 
