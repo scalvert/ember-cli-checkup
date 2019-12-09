@@ -2,7 +2,7 @@
 import IFixturifyProject = require('ember-cli/tests/helpers/fixturify-project');
 import { TestsTask } from '../../tasks';
 import { TestsTaskResult } from '../../results';
-const EmberCheckupFixturifyProject = require('../helpers/EmberCheckupFixturifyProject');
+const DisposableFixturifyProject = require('../helpers/DisposableFixturifyProject');
 
 var module = QUnit.module;
 const test = QUnit.test;
@@ -26,7 +26,7 @@ module('tests-task', function(hooks) {
   let fixturifyProject: IFixturifyProject;
 
   hooks.beforeEach(function() {
-    fixturifyProject = new EmberCheckupFixturifyProject('cli-checkup-app', '0.0.0');
+    fixturifyProject = new DisposableFixturifyProject('cli-checkup-app', '0.0.0');
   });
 
   hooks.afterEach(function() {

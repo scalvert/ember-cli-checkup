@@ -1,5 +1,5 @@
 const { test } = QUnit;
-const EmberCheckupFixturifyProject = require('../../helpers/EmberCheckupFixturifyProject');
+const DisposableFixturifyProject = require('../../helpers/DisposableFixturifyProject');
 import AstSearcher from '../../../searchers/ast-searcher';
 import JavaScriptTraverser from '../../../traversers/javascript-traverser';
 
@@ -11,7 +11,7 @@ QUnit.module('Utils | ast-searcher', function(hooks) {
   let searcher;
 
   hooks.beforeEach(function() {
-    fixturifyProject = new EmberCheckupFixturifyProject('cli-checkup-app', '0.0.0');
+    fixturifyProject = new DisposableFixturifyProject('cli-checkup-app', '0.0.0');
     searcher = new AstSearcher(FILE_PATH);
   });
 
