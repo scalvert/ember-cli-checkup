@@ -25,7 +25,7 @@ class CustomTraverser extends JavaScriptTraverser {
   get visitors() {
     return {
       Identifier: path => {
-        if (path.node.name === 'PDSCMockerShim' && path.parent.type !== 'ImportDefaultSpecifier') {
+        if (path.node.name === 'foo' && path.parent.type !== 'ImportDefaultSpecifier') {
           this._nodes.push(path.node);
         }
       },
@@ -57,24 +57,24 @@ QUnit.module('ast-searcher', function(hooks) {
 
   test('it finds no results when traverser pattern not found', async function(assert) {
     fixturifyProject.files = Object.assign(fixturifyProject.files, {
-      tests: {
-        unit: {
-          'foo-unit-test.js': `
-            import { module } from 'qunit';
+      app: {
+        components: {
+          'foo-bar.js': `
+            import Component from '@ember/component';
 
-            module('Unit | foo/bar', function(hooks) {
-              hooks.before(function() {
-                this.contactsMocks = foo();
-              });
+            export default Component.extend({
+              init() {
+                bar();
+              }
             });
           `,
-          'bar-unit-test.js': `
-            import { module } from 'qunit';
+          'foo-baz.js': `
+            import Component from '@ember/component';
 
-            module('Unit | foo/bar', function(hooks) {
-              hooks.before(function() {
-                this.contactsMocks = {};
-              });
+            export default Component.extend({
+              init() {
+                bar();
+              }
             });
           `,
         },
@@ -90,70 +90,67 @@ QUnit.module('ast-searcher', function(hooks) {
 
   test('it finds files/nodes when traverser pattern found', async function(assert) {
     fixturifyProject.files = Object.assign(fixturifyProject.files, {
-      tests: {
+      app: {
+        components: {
+          'foo-bar.js': `
+            import Component from '@ember/component';
+            import foo from 'foo';
+
+            export default Component.extend({
+              init() {
+                foo();
+              }
+            });
+          `,
+        },
+        services: {
+          'foo-baz.js': `
+            import Component from '@ember/component';
+            import foo from 'foo';
+
+            export default Component.extend({
+              init() {
+                foo();
+              },
+
+              baz() {
+                if (thing()) {
+                  foo();
+                }
+              }
+            });
+          `,
+          'foo-blarg.js': `
+            import Component from '@ember/component';
+
+            export default Component.extend({
+              init() {
+                blarg();
+              }
+            });
+          `,
+        },
         helpers: {
-          'uses-pdsc-mocker-shim.js': `
-            import PDSCMockerShim from 'ember-restli-mocker-shims/test-support/pdsc-mocker-shim';
+          'foo-bar.js': `
+            import Component from '@ember/component';
+            import foo from 'foo';
 
-            export default function createMeMock() {
-              return PDSCMockerShim.create('common/me').with({ foo: 'bar' });
-            }
-          `,
-        },
-        unit: {
-          'foo-unit-test.js': `
-            import { module } from 'qunit';
-            import PDSCMockerShim from 'ember-restli-mocker-shims/test-support/pdsc-mocker-shim';
-
-            module('Unit | foo/bar', function(hooks) {
-              hooks.before(function() {
-                this.contactsMocks = PDSCMockerShim.create(
-                  'foo/bar/baz'
-                );
-                this.contactsMocksNoResults = PDSCMockerShim.create(
-                  'bar/baz/biz'
-                );
-              });
-            });
-          `,
-          'bar-unit-test.js': `
-            import { module } from 'qunit';
-
-            module('Unit | foo/bar', function(hooks) {
-              hooks.before(function() {
-                this.contactsMocks = {};
-              });
+            export default Component.extend({
+              init() {
+                let f = foo();
+                let b = bar();
+              }
             });
           `,
         },
-        acceptance: {
-          'foo-acceptance-test.js': `
-            import { module } from 'qunit';
-            import PDSCMockerShim from 'ember-restli-mocker-shims/test-support/pdsc-mocker-shim';
+        controllers: {
+          'foo-fum.js': `
+            import Component from '@ember/component';
 
-            module('Acceptance | foo/bar', function(hooks) {
-              hooks.before(function() {
-                const barBaz = PDSCMockerShim.create(
-                  'bar/baz'
-                );
-                const bazBiz = PDSCMockerShim.create(
-                  'baz/biz'
-                );
-              });
-            });
-          `,
-        },
-        integration: {
-          'foo-integration-test.js': `
-            import { module } from 'qunit';
-            import { setupRenderingTest } from 'ember-qunit';
-
-            module('Integration | Component | foo', function(hooks) {
-              setupRenderingTest(hooks);
-
-              hooks.beforeEach(function() {
-                this.mock = {};
-              });
+            export default Component.extend({
+              init() {
+                fum();
+              }
             });
           `,
         },
