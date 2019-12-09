@@ -24,9 +24,9 @@ class CustomHandlebarsTraverser extends HandlebarsTraverser {
 
   get visitors() {
     return {
-      MustacheStatement: path => {
-        if (path.node.name === 'foo') {
-          this._nodes.push(path.node);
+      MustacheStatement: node => {
+        if (node.path.parts && node.path.parts.includes('foo')) {
+          this._nodes.push(node);
         }
       },
     };
@@ -41,7 +41,7 @@ QUnit.module('ast-searcher using HandlebarsTraverser', function(hooks) {
 
   hooks.beforeEach(function() {
     fixturifyProject = new DisposableFixturifyProject('cli-checkup-app', '0.0.0');
-    searcher = new AstSearcher(FILE_PATH);
+    searcher = new AstSearcher(FILE_PATH, ['**/*.hbs']);
   });
 
   hooks.afterEach(function() {
@@ -75,83 +75,49 @@ QUnit.module('ast-searcher using HandlebarsTraverser', function(hooks) {
     assert.equal(results.size, 0);
   });
 
-  // test('it finds files/nodes when traverser pattern found', async function(assert) {
-  //   fixturifyProject.files = Object.assign(fixturifyProject.files, {
-  //     app: {
-  //       components: {
-  //         'foo-bar.js': `
-  //           import Component from '@ember/component';
-  //           import foo from 'foo';
+  test('it finds files/nodes when traverser pattern found', async function(assert) {
+    fixturifyProject.files = Object.assign(fixturifyProject.files, {
+      app: {
+        components: {
+          'foo-bar.hbs': `
+            <div>
+              {{foo}}
+            </div>
+          `,
+        },
+        services: {
+          'foo-baz.hbs': `
+            {{#if condition}}
+              {{foo}}
+            {{/if}}
+          `,
+          'foo-blarg.hbs': `
+            {{#if nothingHere}}
+              Do nothing
+            {{/if}}
+          `,
+        },
+        helpers: {
+          'foo-bar.hbs': `
+            {{#my-component}}
+              {{foo}}
+              {{bar}}
+              {{baz}}
+            {{/my-component}}
+          `,
+        },
+        controllers: {
+          'foo-fum.hbs': `
+            {{fum}}
+          `,
+        },
+      },
+    });
 
-  //           export default Component.extend({
-  //             init() {
-  //               foo();
-  //             }
-  //           });
-  //         `,
-  //       },
-  //       services: {
-  //         'foo-baz.js': `
-  //           import Component from '@ember/component';
-  //           import foo from 'foo';
+    fixturifyProject.writeSync(FILE_PATH);
 
-  //           export default Component.extend({
-  //             init() {
-  //               foo();
-  //             },
+    const results = await searcher.search(new CustomHandlebarsTraverser());
 
-  //             baz() {
-  //               if (thing()) {
-  //                 foo();
-  //               }
-  //             }
-  //           });
-  //         `,
-  //         'foo-blarg.js': `
-  //           import Component from '@ember/component';
-
-  //           export default Component.extend({
-  //             init() {
-  //               blarg();
-  //             }
-  //           });
-  //         `,
-  //       },
-  //       helpers: {
-  //         'foo-bar.js': `
-  //           import Component from '@ember/component';
-  //           import foo from 'foo';
-
-  //           export default Component.extend({
-  //             init() {
-  //               let f = foo();
-  //               let b = bar();
-  //             }
-  //           });
-  //         `,
-  //       },
-  //       controllers: {
-  //         'foo-fum.js': `
-  //           import Component from '@ember/component';
-
-  //           export default Component.extend({
-  //             init() {
-  //               fum();
-  //             }
-  //           });
-  //         `,
-  //       },
-  //     },
-  //   });
-
-  //   fixturifyProject.writeSync(FILE_PATH);
-
-  //   const results = await searcher.search(new CustomHandlebarsTraverser());
-
-  //   let nodeCount = 0;
-  //   results.forEach(value => (nodeCount += value.length));
-
-  //   assert.equal(results.size, 2);
-  //   assert.equal(nodeCount, 3);
-  // });
+    assert.equal(results.size, 2);
+  });
 });
