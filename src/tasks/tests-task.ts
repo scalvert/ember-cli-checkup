@@ -1,8 +1,16 @@
 import { Node, NodePath } from '@babel/traverse';
-import { ITask, IProject, ITaskResult, ITestMetrics, ISearchTraverser } from '../interfaces';
+import {
+  ITask,
+  IProject,
+  ITaskResult,
+  ITestMetrics,
+  ISearchTraverser,
+  ITestTaskResultData,
+} from '../interfaces';
 import Task from '../task';
 import AstSearcher from '../searchers/ast-searcher';
 import JavaScriptTraverser from '../traversers/javascript-traverser';
+import { TestsTaskResult } from '../results';
 
 interface ITestTraverserFileResult {
   type: TestType;
@@ -106,21 +114,18 @@ export default class TestsTask extends Task implements ITask {
    */
   getTransformedResult(
     testResults: Map<string, { type: string; invocationMap: Map<string, Node[]> }>
-  ) {
-    const result = {
-      data: {},
-    };
-    const resultData: { [key: string]: ITestMetrics } = result.data;
+  ): ITestTaskResultData {
+    const resultData: { [key: string]: ITestMetrics } = {};
 
     for (const [, value] of testResults.entries()) {
-      resultData[value.type.toLowerCase()] = {
+      resultData[value.type] = {
         moduleCount: this.getTestMetricCount(value.invocationMap, 'module'),
         skipCount: this.getTestMetricCount(value.invocationMap, 'skip'),
         testCount: this.getTestMetricCount(value.invocationMap, 'test'),
       };
     }
 
-    return result;
+    return (resultData as unknown) as ITestTaskResultData;
   }
 
   async run() {
@@ -129,7 +134,12 @@ export default class TestsTask extends Task implements ITask {
     const testVisitor = new TestTraverser();
     const testResults = await astSearcher.search(testVisitor);
 
+    const result = new TestsTaskResult();
     // Transform the result into TestsTaskResult format
-    return this.getTransformedResult(testResults);
+    result.data = this.getTransformedResult(testResults);
+
+    this.taskResults.push(result);
+
+    return this.taskResults;
   }
 }
