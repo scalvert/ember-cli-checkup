@@ -1,4 +1,5 @@
-import { AST, traverse, preprocess } from '@glimmer/syntax';
+import { AST } from '@glimmer/syntax';
+import { parse, traverse } from 'ember-template-recast';
 import { handlebarsAstCache as astCache } from '../utils/ast-cache';
 import getFileContents from '../utils/get-file-contents';
 
@@ -14,7 +15,7 @@ export default abstract class HandlebarsTraverser {
     this.fileContents = getFileContents(fullFilePath);
 
     if (!astCache.has(fullFilePath)) {
-      astCache.set(fullFilePath, preprocess(this.fileContents));
+      astCache.set(fullFilePath, parse(this.fileContents));
     }
 
     let ast: AST.Template = astCache.get(fullFilePath);

@@ -1,6 +1,7 @@
 const { test } = QUnit;
 const DisposableFixturifyProject = require('../../helpers/DisposableFixturifyProject');
 import AstSearcher from '../../../searchers/ast-searcher';
+import { handlebarsAstCache } from '../../../utils/ast-cache';
 import HandlebarsTraverser from '../../../traversers/handlebars-traverser';
 
 class CustomHandlebarsTraverser extends HandlebarsTraverser {
@@ -24,8 +25,8 @@ class CustomHandlebarsTraverser extends HandlebarsTraverser {
 
   get visitors() {
     return {
-      MustacheStatement: node => {
-        if (node.path.parts && node.path.parts.includes('foo')) {
+      PathExpression: node => {
+        if (node.original === 'foo') {
           this._nodes.push(node);
         }
       },
@@ -46,6 +47,7 @@ QUnit.module('ast-searcher using HandlebarsTraverser', function(hooks) {
 
   hooks.afterEach(function() {
     fixturifyProject.dispose(FILE_PATH);
+    handlebarsAstCache.clear();
   });
 
   test('it finds no results for empty content', async function(assert) {
@@ -118,6 +120,10 @@ QUnit.module('ast-searcher using HandlebarsTraverser', function(hooks) {
 
     const results = await searcher.search(new CustomHandlebarsTraverser());
 
-    assert.equal(results.size, 2);
+    let nodeCount = 0;
+    results.forEach(value => (nodeCount += value.length));
+
+    assert.equal(results.size, 3);
+    assert.equal(nodeCount, 3);
   });
 });

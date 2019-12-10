@@ -22,6 +22,10 @@ class AstCache<T> {
   has(filePath: string) {
     return this.cache.has(filePath);
   }
+
+  clear(): void {
+    this.cache = new Map<string, T>();
+  }
 }
 
 export const javascriptAstCache = new AstCache<File>();

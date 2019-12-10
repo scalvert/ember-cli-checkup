@@ -1,6 +1,7 @@
 const { test } = QUnit;
 const DisposableFixturifyProject = require('../../helpers/DisposableFixturifyProject');
 import AstSearcher from '../../../searchers/ast-searcher';
+import { javascriptAstCache } from '../../../utils/ast-cache';
 import JavaScriptTraverser from '../../../traversers/javascript-traverser';
 
 class CustomJavaScriptTraverser extends JavaScriptTraverser {
@@ -46,6 +47,7 @@ QUnit.module('ast-searcher using JavaScriptTraverser', function(hooks) {
 
   hooks.afterEach(function() {
     fixturifyProject.dispose(FILE_PATH);
+    javascriptAstCache.clear();
   });
 
   test('it finds no results for empty content', async function(assert) {
@@ -163,7 +165,7 @@ QUnit.module('ast-searcher using JavaScriptTraverser', function(hooks) {
     let nodeCount = 0;
     results.forEach(value => (nodeCount += value.length));
 
-    assert.equal(results.size, 2);
-    assert.equal(nodeCount, 3);
+    assert.equal(results.size, 3);
+    assert.equal(nodeCount, 4);
   });
 });

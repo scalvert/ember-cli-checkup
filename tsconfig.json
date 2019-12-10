@@ -17,7 +17,11 @@
     "inlineSources": true,
     "module": "commonjs",
     "rootDir": "src",
-    "outDir": "lib"
+    "outDir": "lib",
+    "baseUrl": ".",
+    "paths": {
+      "*": ["types/*"]
+    }
   },
   "files": ["src/addon.ts"],
   "include": ["src/tests"]

@@ -88,7 +88,9 @@ module('types-task', function(hooks) {
 
     fixturifyProject.addInRepoAddon('ember-super-button', 'latest');
 
+    // @ts-ignore
     fixturifyProject.files.lib['ember-super-button'].addon = TYPES;
+    // @ts-ignore
 
     fixturifyProject.writeSync(FILE_PATH);
 
