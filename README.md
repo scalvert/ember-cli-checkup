@@ -1,5 +1,7 @@
 # ember-cli-checkup
 
+![CI](https://github.com/scalvert/ember-cli-checkup/workflows/CI/badge.svg)
+
 :warning: This repository is a work in progress. It is not currently usable.
 
 > Provides the ability to check up on your Ember application or addon, so you can
