@@ -20,16 +20,16 @@ class FakeTaskResult implements ITaskResult {
 }
 
 class FakeTask extends Task implements ITask {
-  constructor(project: IProject, result: ITaskResult[]) {
-    super(project, result);
+  constructor(project: IProject) {
+    super(project);
   }
 
-  run() {
+  async run(): Promise<ITaskResult> {
     let result = new FakeTaskResult();
     result.name = 'Foobar';
     result.version = 'latest';
 
-    this.taskResults.push(result);
+    return result;
   }
 }
 

@@ -64,8 +64,8 @@ module('types-task', function(hooks) {
     fixturifyProject.writeSync(FILE_PATH);
 
     let project = fixturifyProject.buildProjectModel();
-    const taskResults = await new TypesTask(project, []).run();
-    const typesTaskResult = <TypesTaskResult>taskResults.pop();
+    const result = await new TypesTask(project).run();
+    const typesTaskResult = <TypesTaskResult>result;
 
     assert.equal(Object.keys(typesTaskResult.types).length, 10);
     assert.equal(typesTaskResult.types.components.length, 1);
@@ -95,8 +95,8 @@ module('types-task', function(hooks) {
     fixturifyProject.writeSync(FILE_PATH);
 
     let project = fixturifyProject.buildProjectModel(Project);
-    const taskResults = await new TypesTask(project, []).run();
-    const typesTaskResult = <TypesTaskResult>taskResults.pop();
+    const result = await new TypesTask(project).run();
+    const typesTaskResult = <TypesTaskResult>result;
 
     assert.equal(Object.keys(typesTaskResult.types).length, 10);
     assert.equal(typesTaskResult.types.components.length, 2);

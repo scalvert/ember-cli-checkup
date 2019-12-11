@@ -19,10 +19,10 @@ export default abstract class FileSearcherTask extends Task implements ITask {
    * @param result {ITaskResult[]} the result object that aggregates data together for output.
    * @param searchPatterns {SearchPatterns} the search pattern that your filesearcher uses to return the results.
    */
-  constructor(project: IProject, result: ITaskResult[], searchPatterns: SearchPatterns) {
-    super(project, result);
+  constructor(project: IProject, searchPatterns: SearchPatterns) {
+    super(project);
     this.searcher = new FileSearcher(this.project.root, searchPatterns);
   }
 
-  run() {}
+  abstract run(): Promise<ITaskResult>;
 }

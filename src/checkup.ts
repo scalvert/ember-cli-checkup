@@ -7,6 +7,7 @@ import Clock from './utils/clock';
 const DEFAULT_TASKS = <ITaskConstructor[]>(
   Object.values(DefaultTasks).filter(x => typeof x == 'function')
 );
+
 /**
  * @class Checkup
  *
@@ -45,7 +46,7 @@ export default class Checkup {
    */
   async run(): Promise<ITaskResult[]> {
     let clock = new Clock();
-    let tasks = new TaskList(this.project, this.result);
+    let tasks = new TaskList(this.project);
     let defaultTaskConstructors = this.defaultTasks;
 
     tasks.addTasks(defaultTaskConstructors);

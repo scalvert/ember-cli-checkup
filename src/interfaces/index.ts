@@ -79,12 +79,11 @@ export interface ISpinner {
 }
 
 export interface ITask {
-  taskResults: ITaskResult[];
-  run: () => void;
+  run: () => Promise<ITaskResult>;
 }
 
 export interface ITaskConstructor {
-  new (project: IProject, results: ITaskResult[]): ITask;
+  new (project: IProject): ITask;
 }
 
 export interface ITaskItemData {

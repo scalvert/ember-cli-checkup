@@ -3,7 +3,7 @@ import FileSearcherTask from '../file-searcher-task';
 import { TypesTaskResult } from '../results';
 
 export default class TypesTask extends FileSearcherTask implements ITask {
-  constructor(project: IProject, result: ITaskResult[]) {
+  constructor(project: IProject) {
     const SEARCH_PATTERNS = {
       components: ['**/components/**/*.js'],
       controllers: ['**/controllers/**/*.js'],
@@ -17,15 +17,13 @@ export default class TypesTask extends FileSearcherTask implements ITask {
       templates: ['**/templates/**/*.hbs'],
     };
 
-    super(project, result, SEARCH_PATTERNS);
+    super(project, SEARCH_PATTERNS);
   }
 
-  async run() {
+  async run(): Promise<ITaskResult> {
     let result = new TypesTaskResult();
     result.types = await this.searcher.search();
 
-    this.taskResults.push(result);
-
-    return this.taskResults;
+    return result;
   }
 }

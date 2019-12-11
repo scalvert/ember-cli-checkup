@@ -30,13 +30,13 @@ function emberCliAddonFilter(dependency: string) {
 }
 
 export default class DependenciesTask extends Task implements ITask {
-  constructor(project: IProject, result: ITaskResult[]) {
-    super(project, result);
+  constructor(project: IProject) {
+    super(project);
   }
 
-  async run() {
-    let result = new DependenciesTaskResult();
-    let project = this.project;
+  async run(): Promise<ITaskResult> {
+    let result: DependenciesTaskResult = new DependenciesTaskResult();
+    let project: IProject = this.project;
     let pkg = project.pkg;
 
     result.emberLibraries['ember-source'] = getDependency(pkg.devDependencies, 'ember-source');
@@ -52,8 +52,6 @@ export default class DependenciesTask extends Task implements ITask {
       devDependencies: getDependencies(pkg.devDependencies, emberCliAddonFilter),
     };
 
-    this.taskResults.push(result);
-
-    return this.taskResults;
+    return result;
   }
 }

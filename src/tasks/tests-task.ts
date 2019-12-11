@@ -94,8 +94,8 @@ class TestTraverser extends JavaScriptTraverser
 }
 
 export default class TestsTask extends Task implements ITask {
-  constructor(project: IProject, result: ITaskResult[]) {
-    super(project, result);
+  constructor(project: IProject) {
+    super(project);
   }
 
   /**
@@ -127,7 +127,7 @@ export default class TestsTask extends Task implements ITask {
     return (resultData as unknown) as ITestTaskResultData;
   }
 
-  async run() {
+  async run(): Promise<ITaskResult> {
     let astSearcher: AstSearcher = new AstSearcher(this.project.root, ['**/tests/**/*.js']);
 
     const testVisitor = new TestTraverser();
@@ -137,8 +137,6 @@ export default class TestsTask extends Task implements ITask {
     // Transform the result into TestsTaskResult format
     result.data = this.getTransformedResult(testResults);
 
-    this.taskResults.push(result);
-
-    return this.taskResults;
+    return result;
   }
 }

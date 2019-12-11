@@ -7,7 +7,6 @@ import * as pMap from 'p-map';
  * Represents a collection of tasks to run.
  */
 export default class TaskList implements ITaskList {
-  private results: ITaskResult[];
   private project: IProject;
   private defaultTasks: ITask[];
 
@@ -17,9 +16,8 @@ export default class TaskList implements ITaskList {
    * @param ui {IUserInterface} the UI model that is instantiated as part of ember-cli.
    * @param results {ITaskResult[]} the results object that aggregates data together for output.
    */
-  constructor(project: IProject, results: ITaskResult[]) {
+  constructor(project: IProject) {
     this.project = project;
-    this.results = results;
     this.defaultTasks = [];
   }
 
@@ -31,7 +29,7 @@ export default class TaskList implements ITaskList {
    * @param taskConstructor {ITaskConstructor} a constructor representing a Task class
    */
   addTask(taskConstructor: ITaskConstructor) {
-    this.defaultTasks.push(new taskConstructor(this.project, this.results));
+    this.defaultTasks.push(new taskConstructor(this.project));
   }
 
   /**
@@ -65,7 +63,7 @@ export default class TaskList implements ITaskList {
    * Runs each task in parallel
    * @param fn {Function} the function expressing the wrapped task to run
    */
-  private eachTask(fn: (task: ITask) => void) {
-    return pMap(this.defaultTasks, fn).then(() => this.results);
+  private eachTask(fn: (task: ITask) => Promise<ITaskResult>) {
+    return pMap(this.defaultTasks, fn);
   }
 }

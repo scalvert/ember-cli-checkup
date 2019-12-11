@@ -125,8 +125,8 @@ module('tests-task', function(hooks) {
     fixturifyProject.writeSync(FILE_PATH);
 
     let project = fixturifyProject.buildProjectModel();
-    const taskResults = await new TestsTask(project, []).run();
-    const testsTaskResult = <TestsTaskResult>taskResults.pop();
+    const result = await new TestsTask(project).run();
+    const testsTaskResult = <TestsTaskResult>result;
 
     const {
       data: {

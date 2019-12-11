@@ -23,8 +23,8 @@ QUnit.module('dependencies-task', function(hooks) {
 
   test('it detects ember-cli dependencies', async function(assert) {
     let project = fixturifyProject.buildProjectModel();
-    const results = await new DependenciesTask(project, []).run();
-    const dependencyTaskResult = <DependenciesTaskResult>results.pop();
+    const result = await new DependenciesTask(project).run();
+    const dependencyTaskResult = <DependenciesTaskResult>result;
 
     assert.deepEqual(dependencyTaskResult.emberCliAddons.dependencies, {
       'ember-cli-blueprint-test-helpers': 'latest',
