@@ -1,0 +1,26 @@
+name: CI
+
+on: [push]
+
+jobs:
+  test:
+    name: Tests
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macOS-latest]
+
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 8.x
+      - name: install yarn
+        run: npm install -g yarn
+      - name: install dependencies
+        run: yarn install
+      - name: lint
+        run: yarn lint
+      - name: test
+        run: yarn test
