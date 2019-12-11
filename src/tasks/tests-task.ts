@@ -6,6 +6,7 @@ import {
   ITestMetrics,
   ISearchTraverser,
   ITestTaskResultData,
+  IDictionary,
 } from '../interfaces';
 import Task from '../task';
 import AstSearcher from '../searchers/ast-searcher';
@@ -112,10 +113,8 @@ export default class TestsTask extends Task implements ITask {
    * Returns the result from the AST searcher into the TestsTaskResult format
    * @param testResults
    */
-  getTransformedResult(
-    testResults: Map<string, { type: string; invocationMap: Map<string, Node[]> }>
-  ): ITestTaskResultData {
-    const resultData: { [key: string]: ITestMetrics } = {};
+  getTransformedResult(testResults: Map<string, ITestTraverserFileResult>): ITestTaskResultData {
+    const resultData: IDictionary<ITestMetrics> = {};
 
     for (const [, value] of testResults.entries()) {
       resultData[value.type] = {
