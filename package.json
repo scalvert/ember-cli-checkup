@@ -46,7 +46,7 @@
     "@types/chalk": "^2.2.0",
     "@types/console-ui": "^2.2.3",
     "@types/ember": "^3.1.1",
-    "@types/ember-test-helpers": "^1.0.4",
+    "@types/ember-test-helpers": "^1.0.6",
     "@types/node": "^12.12.16",
     "@types/qunit": "^2.5.4",
     "@types/resolve": "^0.0.8",
