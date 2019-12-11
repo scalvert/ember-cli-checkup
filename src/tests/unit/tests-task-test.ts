@@ -125,7 +125,8 @@ module('tests-task', function(hooks) {
     fixturifyProject.writeSync(FILE_PATH);
 
     let project = fixturifyProject.buildProjectModel();
-    const taskResults = <TestsTaskResult>await new TestsTask(project, []).run();
+    const taskResults = await new TestsTask(project, []).run();
+    const testsTaskResult = <TestsTaskResult>taskResults.pop();
 
     const {
       data: {
@@ -134,7 +135,7 @@ module('tests-task', function(hooks) {
         rendering: renderingData,
         unit: unitData,
       },
-    } = taskResults;
+    } = testsTaskResult;
 
     assert.equal(applicationData.moduleCount, 1, 'application module count is correct');
     assert.equal(applicationData.skipCount, 0, 'application skip count is correct');
