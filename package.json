@@ -67,7 +67,7 @@
     "prettier": "^1.18.2",
     "qunit": "^2.9.3",
     "qunit-dom": "^0.9.2",
-    "ts-node": "^8.4.1",
+    "ts-node": "^8.5.4",
     "typescript": "^3.7.3",
     "typescript-require": "^0.2.10"
   },
