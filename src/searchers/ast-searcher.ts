@@ -2,6 +2,15 @@ import * as path from 'path';
 import * as globby from 'globby';
 import { ISearchTraverser } from '../interfaces';
 
+const IGNORE_PATTERNS: string[] = [
+  '!**/node_modules/**',
+  '!bower_components/**',
+  '!**/tests/dummy/**',
+  '!concat-stats-for/**',
+  '!dist',
+  '!build',
+];
+
 export default class AstSearcher {
   rootSearchPath: string;
   globPatterns: Array<string>;
@@ -23,7 +32,9 @@ export default class AstSearcher {
    */
   async search<T>(searchTraverser: ISearchTraverser<T>): Promise<Map<string, T>> {
     let searchResultMap = new Map<string, T>();
-    let paths = await globby(this.globPatterns, { cwd: this.rootSearchPath });
+    let paths = await globby(this.globPatterns.concat(IGNORE_PATTERNS), {
+      cwd: this.rootSearchPath,
+    });
 
     paths.forEach(filePath => {
       let fullFilePath: string = path.join(this.rootSearchPath, filePath);
