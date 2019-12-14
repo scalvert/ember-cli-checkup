@@ -1,6 +1,13 @@
-name: CI
+name: CI Build
 
-on: [push]
+on:
+  push:
+    branches:
+      - master
+      - 'v*'
+  pull_request: {}
+  schedule:
+    - cron: '0 3 * * *' # daily, at 3am
 
 jobs:
   test:
@@ -16,8 +23,6 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 8.x
-      - name: install yarn
-        run: npm install -g yarn
       - name: install dependencies
         run: yarn install
       - name: lint

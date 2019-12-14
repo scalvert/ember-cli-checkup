@@ -1,6 +1,6 @@
 # ember-cli-checkup
 
-![CI](https://github.com/scalvert/ember-cli-checkup/workflows/CI/badge.svg)
+![CI Build](https://github.com/scalvert/ember-cli-checkup/workflows/CI%20Build/badge.svg)
 
 :warning: This repository is a work in progress. It is not currently usable.
 
