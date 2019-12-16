@@ -1,29 +1,14 @@
 import { Node, NodePath } from '@babel/traverse';
-import {
-  ITask,
-  IProject,
-  ITaskResult,
-  ITestMetrics,
-  ISearchTraverser,
-  ITestTaskResultData,
-  IDictionary,
-} from '../interfaces';
+import { ITask, ISearchTraverser, TestType } from '../interfaces';
 import Task from '../task';
 import AstSearcher from '../searchers/ast-searcher';
 import JavaScriptTraverser from '../traversers/javascript-traverser';
 import { TestsTaskResult } from '../results';
 
-interface ITestTraverserFileResult {
+export type TestTraverserFileResult = {
   type: TestType;
   invocationMap: Map<string, Node[]>;
-}
-
-enum TestType {
-  Application = 'application',
-  Container = 'container',
-  Rendering = 'rendering',
-  Unit = 'unit',
-}
+};
 
 const TEST_TYPE_MAP = {
   setupApplicationTest: TestType.Application,
@@ -31,12 +16,10 @@ const TEST_TYPE_MAP = {
   setupTest: TestType.Container,
 };
 
-// const testIdentifiers = ['setupApplicationTest', 'setupRenderingTest', 'setupTest'];
-
 const INVOCATIONS = ['test', 'module', 'skip'];
 
 class TestTraverser extends JavaScriptTraverser
-  implements ISearchTraverser<ITestTraverserFileResult> {
+  implements ISearchTraverser<TestTraverserFileResult> {
   _results: Map<string, Node[]>;
   _testType: TestType;
 
@@ -47,7 +30,7 @@ class TestTraverser extends JavaScriptTraverser
     this._testType = TestType.Unit;
   }
 
-  get hasResults() {
+  get hasResults(): boolean {
     return !!this._results.size;
   }
 
@@ -56,7 +39,7 @@ class TestTraverser extends JavaScriptTraverser
     this._testType = TestType.Unit;
   }
 
-  get results() {
+  get results(): TestTraverserFileResult {
     return {
       type: this._testType,
       invocationMap: this._results,
@@ -94,10 +77,6 @@ class TestTraverser extends JavaScriptTraverser
 }
 
 export default class TestsTask extends Task implements ITask {
-  constructor(project: IProject) {
-    super(project);
-  }
-
   /**
    * Returns the Node count of the individual test metrics from the ast search result.
    * Possible Metrics - moduleCount, skipCount, testCount
@@ -109,33 +88,14 @@ export default class TestsTask extends Task implements ITask {
     return metricValue ? metricValue.length : 0;
   }
 
-  /**
-   * Returns the result from the AST searcher into the TestsTaskResult format
-   * @param testResults
-   */
-  getTransformedResult(testResults: Map<string, ITestTraverserFileResult>): ITestTaskResultData {
-    const resultData: IDictionary<ITestMetrics> = {};
-
-    for (const [, value] of testResults.entries()) {
-      resultData[value.type] = {
-        moduleCount: this.getTestMetricCount(value.invocationMap, 'module'),
-        skipCount: this.getTestMetricCount(value.invocationMap, 'skip'),
-        testCount: this.getTestMetricCount(value.invocationMap, 'test'),
-      };
-    }
-
-    return (resultData as unknown) as ITestTaskResultData;
-  }
-
-  async run(): Promise<ITaskResult> {
-    let astSearcher: AstSearcher = new AstSearcher(this.project.root, ['**/tests/**/*.js']);
+  async run(): Promise<TestsTaskResult> {
+    let astSearcher = new AstSearcher(this.project.root, ['**/tests/**/*.js']);
 
     const testVisitor = new TestTraverser();
     const testResults = await astSearcher.search(testVisitor);
 
     const result = new TestsTaskResult();
-    // Transform the result into TestsTaskResult format
-    result.data = this.getTransformedResult(testResults);
+    result.transformAndLoadResults(testResults);
 
     return result;
   }

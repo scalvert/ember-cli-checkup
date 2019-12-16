@@ -9,6 +9,13 @@ export const enum ProjectType {
   Unknown = 'unknown',
 }
 
+export const enum TestType {
+  Application = 'application',
+  Container = 'container',
+  Rendering = 'rendering',
+  Unit = 'unit',
+}
+
 export interface ICommand extends IEmberCLICommand {
   name: string;
   aliases: string[];
