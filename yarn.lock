@@ -2428,12 +2428,7 @@ colors@1.0.3:
   resolved "https://registry.yarnpkg.com/colors/-/colors-1.0.3.tgz#0433f44d809680fdeb60ed260f1b0c262e82a40b"
   integrity sha1-BDP0TYCWgP3rYO0mDxsMJi6CpAs=
 
-colors@^1.1.2:
-  version "1.3.3"
-  resolved "https://registry.yarnpkg.com/colors/-/colors-1.3.3.tgz#39e005d546afe01e01f9c4ca8fa50f686a01205d"
-  integrity sha512-mmGt/1pZqYRjMxB1axhTo16/snVZ5krrKkcmMeVKxzECMMXoCgnvTPp10QgHfcbQZw8Dq2jMNG6je4JlWU0gWg==
-
-colors@^1.3.3:
+colors@^1.1.2, colors@^1.3.3:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/colors/-/colors-1.4.0.tgz#c50491479d4c1bdaed2c9ced32cf7c7dc2360f78"
   integrity sha512-a+UqTh4kgZg/SlGvfbzDHpgRu7AAQOmmqRHJnxhRZICKFUT91brVhNNt58CMWU9PsBbv3PDCZUHbVxuDiH2mtA==
@@ -2458,12 +2453,7 @@ commander@2.8.x:
   dependencies:
     graceful-readlink ">= 1.0.0"
 
-commander@^2.15.1, commander@^2.6.0, commander@~2.20.0:
-  version "2.20.0"
-  resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.0.tgz#d58bb2b5c1ee8f87b0d340027e9e94e222c5a422"
-  integrity sha512-7j2y+40w61zy6YC2iRNpUe/NwhNyoXrYpHMrSunaMG64nRnaf96zO/KMQR4OyN/UnE5KLyEBnKHd4aG3rskjpQ==
-
-commander@^2.20.0:
+commander@^2.15.1, commander@^2.20.0, commander@^2.6.0, commander@~2.20.0:
   version "2.20.3"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.3.tgz#fd485e84c03eb4881c20722ba48035e8531aeb33"
   integrity sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==
@@ -3106,10 +3096,10 @@ ember-source@~3.12.0:
     jquery "^3.4.1"
     resolve "^1.11.1"
 
-ember-template-recast@^3.3.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/ember-template-recast/-/ember-template-recast-3.3.0.tgz#ec6dee16c361fad6ef0c87768decd0dc135b5805"
-  integrity sha512-LWF2JzGZR8sf3lvLmjZrtSUbfV4qNo6QJeEmKba9Z5Bzktoz72E22MUvCRrZWaXUbQAJIp7S3+ALL9nAqErPMg==
+ember-template-recast@^3.3.1:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/ember-template-recast/-/ember-template-recast-3.3.1.tgz#9727be63151107a365f52b5ed72beb10522c4a2c"
+  integrity sha512-dybd47ph+dX/6LlKEhunDXAxrMmngI8o34lPIJK7QqVqBsNupg9LGI0qWOegphPB9lfSR9jaqysdX2EN/G+bTA==
   dependencies:
     "@glimmer/syntax" "^0.44.0"
     async-promise-queue "^1.0.5"
