@@ -14,8 +14,12 @@ class FakeTaskResult implements ITaskResult {
   name!: string;
   version!: string;
 
-  write(writer: IConsoleWriter) {
+  toConsole(writer: IConsoleWriter) {
     writer.line();
+  }
+
+  toJson() {
+    return { name: this.name, version: this.version };
   }
 }
 

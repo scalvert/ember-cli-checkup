@@ -379,6 +379,18 @@ module('tests-task', function(hooks) {
       assert.equal(unitData.moduleCount, 2, 'unit module count is correct');
       assert.equal(unitData.skipCount, 1, 'unit skip count is correct');
       assert.equal(unitData.testCount, 2, 'unit test count is correct');
+
+      // @TODO: Make this as a separate test once the test fixtures are in defined in a separate file
+      const expectedJsonResult = {
+        tests: {
+          application: { moduleCount: 0, skipCount: 0, testCount: 0 },
+          container: { moduleCount: 0, skipCount: 0, testCount: 0 },
+          rendering: { moduleCount: 0, skipCount: 0, testCount: 0 },
+          unit: { moduleCount: 2, skipCount: 1, testCount: 2 },
+        },
+      };
+
+      assert.deepEqual(result.toJson(), expectedJsonResult, 'toJson output is correct');
     });
 
     test('it finds container tests', async function(assert) {
@@ -746,6 +758,18 @@ module('tests-task', function(hooks) {
       assert.equal(unitData.moduleCount, 1, 'unit module count is correct');
       assert.equal(unitData.skipCount, 1, 'unit skip count is correct');
       assert.equal(unitData.testCount, 2, 'unit test count is correct');
+
+      // @TODO: Make this as a separate test once the test fixtures are in defined in a separate file
+      const expectedJsonResult = {
+        tests: {
+          application: { moduleCount: 2, skipCount: 1, testCount: 2 },
+          container: { moduleCount: 1, skipCount: 0, testCount: 2 },
+          rendering: { moduleCount: 1, skipCount: 0, testCount: 1 },
+          unit: { moduleCount: 1, skipCount: 1, testCount: 2 },
+        },
+      };
+
+      assert.deepEqual(result.toJson(), expectedJsonResult, 'toJson output is correct');
     });
   });
 });

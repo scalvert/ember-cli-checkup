@@ -1,7 +1,7 @@
 import { IUserInterface, IProject, ITaskConstructor, IOptions, ITaskResult } from './interfaces';
 import TaskList from './task-list';
 import * as DefaultTasks from './tasks';
-import ResultConsoleWriter from './utils/result-console-writer';
+import ResultWriter from './utils/result-writer';
 import Clock from './utils/clock';
 
 const DEFAULT_TASKS = <ITaskConstructor[]>(
@@ -62,9 +62,9 @@ export default class Checkup {
     this.ui.stopProgress();
 
     if (!this.options.silent) {
-      let writer = new ResultConsoleWriter(taskResults);
+      let writer = new ResultWriter(taskResults);
 
-      writer.write();
+      writer.toConsole();
       writer.writeDuration(clock.duration);
     }
 
