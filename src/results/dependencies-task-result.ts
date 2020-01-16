@@ -9,13 +9,23 @@ export default class DependenciesTaskResult implements ITaskResult {
     this.emberLibraries = {};
   }
 
-  write(writer: IConsoleWriter) {
-    writer.heading('Depedencies');
+  toConsole(writer: IConsoleWriter) {
+    writer.heading('Dependencies');
     writer.table('Ember Core Libraries', this.emberLibraries);
     writer.line();
 
     writer.table('Ember Addons', this.emberAddons.dependencies);
     writer.table('Ember CLI Addons', this.emberCliAddons.dependencies);
     writer.line();
+  }
+
+  toJson() {
+    return {
+      dependencies: {
+        emberLibraries: this.emberLibraries,
+        emberAddons: this.emberAddons,
+        emberCliAddons: this.emberCliAddons,
+      },
+    };
   }
 }

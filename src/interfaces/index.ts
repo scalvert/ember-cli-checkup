@@ -67,10 +67,6 @@ export interface IProject {
   root: string;
 }
 
-export interface IResultConsoleWriter {
-  write: () => void;
-}
-
 export interface ISearchTraverser<T> {
   hasResults: boolean;
   results: T;
@@ -104,7 +100,8 @@ export interface ITaskList {
 }
 
 export interface ITaskResult {
-  write: (writer: IConsoleWriter) => void;
+  toConsole: (writer: IConsoleWriter) => void;
+  toJson: () => {};
 }
 
 export interface ITestMetrics {

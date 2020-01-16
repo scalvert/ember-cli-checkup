@@ -61,8 +61,12 @@ export default class TestsTaskResult implements ITaskResult {
     }
   }
 
-  write(writer: IConsoleWriter) {
+  toConsole(writer: IConsoleWriter) {
     writer.heading('Implement Me!');
     writer.line();
+  }
+
+  toJson() {
+    return { tests: this.basic };
   }
 }
