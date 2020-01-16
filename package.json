@@ -14,14 +14,25 @@
   },
   "scripts": {
     "build": "tsc",
-    "dev": "tsc -w",
     "clean": "rm -rf lib/*",
+    "dev": "tsc -w",
     "lint": "eslint --ext js,ts .",
-    "test": "yarn build && qunit lib/tests && yarn clean",
-    "test:dev": "yarn build && qunit lib/tests",
-    "test:debug": "yarn build && node --inspect-brk=1337 node_modules/.bin/qunit lib/tests",
     "prepublishOnly": "yarn build",
-    "postpublish": "yarn clean"
+    "postpublish": "yarn clean",
+    "test": "yarn build && qunit lib/tests && yarn clean",
+    "test:debug": "yarn build && node --inspect-brk=1337 node_modules/.bin/qunit lib/tests",
+    "test:dev": "yarn build && qunit lib/tests"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.ts": [
+      "eslint --ext js,ts . --fix",
+      "git add"
+    ]
   },
   "dependencies": {
     "@glimmer/reference": "^0.44.0",
@@ -68,6 +79,8 @@
     "prettier": "^1.19.1",
     "qunit": "^2.9.3",
     "qunit-dom": "^0.9.2",
+    "release-it": "^12.2.1",
+    "release-it-lerna-changelog": "^1.0.3",
     "ts-node": "^8.5.4",
     "typescript": "^3.7.3",
     "typescript-require": "^0.2.10"
@@ -75,18 +88,24 @@
   "engines": {
     "node": "8.* || >= 10.*"
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
   "ember-addon": {
     "configPath": "tests/dummy/config"
   },
-  "lint-staged": {
-    "src/**/*.ts": [
-      "eslint --ext js,ts . --fix",
-      "git add"
-    ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
+  "release-it": {
+    "plugins": {
+      "release-it-lerna-changelog": {
+        "infile": "CHANGELOG.md"
+      }
+    },
+    "git": {
+      "tagName": "v${version}",
+      "changelog": "git log --pretty=format:\"* %s (%h)\" --no-merges --perl-regexp --author=\"^((?!dependabot-preview).*)$\" ${latestTag}...HEAD"
+    },
+    "github": {
+      "release": true
     }
   }
 }
