@@ -135,44 +135,66 @@ QUnit.module('result-writer', function(hooks) {
     let writer = new ResultWriter(result);
 
     const expectedJsonResult = {
-      tasks: [
-        {
-          types: {
-            components: ['addon/components/my-component.js'],
-            controllers: ['addon/controllers/my-controller.js'],
-            helpers: ['addon/helpers/my-helper.js'],
-            initializers: ['addon/initializers/my-initializer.js'],
-            'instance-initializers': ['addon/instance-initializers/my-helper.js'],
-            mixins: ['addon/mixins/my-mixin.js'],
-            models: ['addon/models/my-model.js'],
-            routes: ['addon/routes/my-route.js'],
-            services: ['addon/services/my-service.js'],
-            templates: ['addon/templates/my-component.hbs'],
-          },
-        },
-        {
-          tests: {
-            application: { moduleCount: 0, skipCount: 0, testCount: 0 },
-            container: { moduleCount: 0, skipCount: 0, testCount: 0 },
-            rendering: { moduleCount: 0, skipCount: 0, testCount: 0 },
-            unit: { moduleCount: 1, skipCount: 1, testCount: 2 },
-          },
-        },
-      ],
-      dependencies: {
-        emberLibraries: { 'ember-source': 'latest', 'ember-cli': 'latest', 'ember-data': 'latest' },
-        emberAddons: {
-          dependencies: {},
-          devDependencies: { 'ember-source': 'latest', 'ember-data': 'latest' },
-        },
-        emberCliAddons: {
-          dependencies: { 'ember-cli-blueprint-test-helpers': 'latest' },
-          devDependencies: { 'ember-cli-string-utils': 'latest', 'ember-cli': 'latest' },
-        },
-      },
       name: 'cli-checkup-app',
       type: 'application',
       version: '0.0.0',
+      dependencies: {
+        emberLibraries: {
+          'ember-source': 'latest',
+          'ember-cli': 'latest',
+          'ember-data': 'latest',
+        },
+        emberAddons: {
+          dependencies: {},
+          devDependencies: {
+            'ember-source': 'latest',
+            'ember-data': 'latest',
+          },
+        },
+        emberCliAddons: {
+          dependencies: {
+            'ember-cli-blueprint-test-helpers': 'latest',
+          },
+          devDependencies: {
+            'ember-cli-string-utils': 'latest',
+            'ember-cli': 'latest',
+          },
+        },
+      },
+      types: {
+        components: ['addon/components/my-component.js'],
+        controllers: ['addon/controllers/my-controller.js'],
+        helpers: ['addon/helpers/my-helper.js'],
+        initializers: ['addon/initializers/my-initializer.js'],
+        'instance-initializers': ['addon/instance-initializers/my-helper.js'],
+        mixins: ['addon/mixins/my-mixin.js'],
+        models: ['addon/models/my-model.js'],
+        routes: ['addon/routes/my-route.js'],
+        services: ['addon/services/my-service.js'],
+        templates: ['addon/templates/my-component.hbs'],
+      },
+      tests: {
+        application: {
+          moduleCount: 0,
+          skipCount: 0,
+          testCount: 0,
+        },
+        container: {
+          moduleCount: 0,
+          skipCount: 0,
+          testCount: 0,
+        },
+        rendering: {
+          moduleCount: 0,
+          skipCount: 0,
+          testCount: 0,
+        },
+        unit: {
+          moduleCount: 1,
+          skipCount: 1,
+          testCount: 2,
+        },
+      },
     };
 
     assert.deepEqual(

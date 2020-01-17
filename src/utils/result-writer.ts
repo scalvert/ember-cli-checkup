@@ -25,32 +25,15 @@ export default class ResultWriter {
    *    name: 'foo',
    *    version: 'bar',
    *    type: 'baz',
-   *    tasks: [
-   *        types: {},
-   *        tests: {},
-   *        angleBracket: {},
-   *        nativeClass: {}
-   *      ],
    *    dependencies: {}
+   *    types: {},
+   *    tests: {},
    *  }
-   *
    */
   toJson() {
-    const resultData = {
-      tasks: [] as object[],
-    };
-
+    let resultData = {};
     this.results.forEach(taskResult => {
-      if (
-        ['ProjectInfoTaskResult', 'DependenciesTaskResult'].includes(taskResult.constructor.name)
-      ) {
-        // Adds metadata and dependencies related information
-        // to the resultData object
-        Object.assign(resultData, taskResult.toJson());
-      } else {
-        // Adds all other tasks in the `tasks` array if the resultData object
-        resultData.tasks.push(taskResult.toJson());
-      }
+      resultData = Object.assign(resultData, taskResult.toJson());
     });
 
     return resultData;
