@@ -44,7 +44,7 @@
     "chalk": "^2.4.2",
     "cli-table3": "^0.5.1",
     "columnify": "^1.5.4",
-    "ember-template-recast": "^3.3.1",
+    "ember-template-recast": "^4.0.0",
     "globby": "^11.0.0",
     "ora": "^4.0.3",
     "p-map": "^3.0.0"
