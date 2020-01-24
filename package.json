@@ -74,7 +74,7 @@
     "eslint-plugin-prettier": "^3.1.2",
     "fixturify-project": "^1.9.1",
     "husky": "^3.1.0",
-    "lint-staged": "^9.5.0",
+    "lint-staged": "^10.0.2",
     "loader.js": "^4.7.0",
     "prettier": "^1.19.1",
     "qunit": "^2.9.3",
