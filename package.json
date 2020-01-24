@@ -35,10 +35,10 @@
     ]
   },
   "dependencies": {
-    "@glimmer/reference": "^0.44.0",
-    "@glimmer/runtime": "^0.44.0",
-    "@glimmer/syntax": "^0.44.0",
-    "@glimmer/validator": "^0.44.0",
+    "@glimmer/reference": "^0.47.0",
+    "@glimmer/runtime": "^0.47.0",
+    "@glimmer/syntax": "^0.47.0",
+    "@glimmer/validator": "^0.47.0",
     "@simple-dom/interface": "^1.4.0",
     "capitalize": "^2.0.1",
     "chalk": "^2.4.2",
