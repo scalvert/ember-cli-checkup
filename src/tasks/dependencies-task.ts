@@ -10,6 +10,10 @@ function getDependencies(
   dependencies: IDictionary<string>,
   filter: (dependency: string) => boolean
 ) {
+  if (typeof dependencies === 'undefined') {
+    return {};
+  }
+
   return Object.entries(dependencies).reduce((orig: IDictionary<string>, pair) => {
     let [key, value] = pair;
 
