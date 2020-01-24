@@ -9,6 +9,7 @@ let command: ICommand = {
   availableOptions: [
     { name: 'verbose', type: Boolean, default: false, aliases: ['v'] },
     { name: 'silent', type: Boolean, default: false, aliases: ['s'] },
+    { name: 'json', type: Boolean, default: false },
   ],
 
   run(options: IOptions): Promise<ITaskResult[]> {

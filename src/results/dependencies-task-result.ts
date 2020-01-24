@@ -9,13 +9,25 @@ export default class DependenciesTaskResult implements ITaskResult {
     this.emberLibraries = {};
   }
 
+  get hasDependencies() {
+    return [this.emberAddons, this.emberCliAddons].every(addons => {
+      return Object.keys(addons.dependencies).length && Object.keys(addons.devDependencies);
+    });
+  }
+
   toConsole(writer: IConsoleWriter) {
+    if (!this.hasDependencies) {
+      return;
+    }
+
     writer.heading('Dependencies');
     writer.table('Ember Core Libraries', this.emberLibraries);
     writer.line();
 
-    writer.table('Ember Addons', this.emberAddons.dependencies);
-    writer.table('Ember CLI Addons', this.emberCliAddons.dependencies);
+    writer.table('Ember Addons - dependencies', this.emberAddons.dependencies);
+    writer.table('Ember Addons - devDependencies', this.emberAddons.dependencies);
+    writer.table('Ember CLI Addons - dependencies', this.emberCliAddons.dependencies);
+    writer.table('Ember CLI Addons - devDependencies', this.emberCliAddons.dependencies);
     writer.line();
   }
 

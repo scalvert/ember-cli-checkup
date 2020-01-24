@@ -64,7 +64,11 @@ export default class Checkup {
     if (!this.options.silent) {
       let writer = new ResultWriter(taskResults);
 
-      writer.toConsole();
+      if (this.options.json) {
+        console.log(writer.toJson());
+      } else {
+        writer.toConsole();
+      }
       writer.writeDuration(clock.duration);
     }
 

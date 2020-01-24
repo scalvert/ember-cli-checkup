@@ -53,6 +53,7 @@ export interface IEmberCLICommand {
 export interface IOptions {
   verbose?: boolean;
   silent?: boolean;
+  json?: boolean;
 }
 
 export interface IProject {
