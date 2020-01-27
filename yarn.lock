@@ -835,7 +835,7 @@
   dependencies:
     "@simple-dom/interface" "^1.4.0"
 
-"@glimmer/interfaces@^0.47.0", "@glimmer/interfaces@^0.47.1":
+"@glimmer/interfaces@^0.47.1":
   version "0.47.1"
   resolved "https://registry.yarnpkg.com/@glimmer/interfaces/-/interfaces-0.47.1.tgz#19056a44f7fb6e6130685bc68b806ab8fb48dd75"
   integrity sha512-ONU/RZYAeNrhh0pXC+0rXUA7AkRqCvitWXjbaVHHF/CVvpi+m2aVsFADF4RROSoDlHKfxkULM33eEJzNnRfWSw==
@@ -908,7 +908,7 @@
   dependencies:
     "@simple-dom/interface" "^1.4.0"
 
-"@glimmer/util@^0.47.0", "@glimmer/util@^0.47.1":
+"@glimmer/util@^0.47.1":
   version "0.47.1"
   resolved "https://registry.yarnpkg.com/@glimmer/util/-/util-0.47.1.tgz#d356c85febc2c5bb33c448efe48cdccd46b2620f"
   integrity sha512-VtsRyx8vTMzEaAimE4CW2n2lIrBn0qFLRs+bvSSTGsjQHkHiFbIltDqOhQ7H9fBZM6Y3vV4niSkMlc8Q9yIc6g==
