@@ -1,4 +1,4 @@
-import { ITask, IProject, ITaskResult } from '../interfaces';
+import { ITask, IProject, ITaskResult } from '../types';
 import Task from '../task';
 import { ProjectInfoTaskResult } from '../results';
 import getProjectType from '../utils/get-project-type';

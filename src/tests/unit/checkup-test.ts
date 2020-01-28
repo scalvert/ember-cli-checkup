@@ -4,7 +4,7 @@ const FixturifyProject = require('ember-cli/tests/helpers/fixturify-project');
 const MockUI = require('console-ui/mock');
 const globby = require('globby');
 
-import { ITaskConstructor, ITask, IProject, ITaskResult, IConsoleWriter } from '../../interfaces';
+import { ITaskConstructor, ITask, IProject, ITaskResult, IConsoleWriter } from '../../types';
 import Checkup from '../../checkup';
 import Task from '../../task';
 

@@ -3,13 +3,7 @@ import IFixturifyProject = require('ember-cli/tests/helpers/fixturify-project');
 const DisposableFixturifyProject = require('../../helpers/DisposableFixturifyProject');
 const MockUI = require('console-ui/mock');
 
-import {
-  IProject,
-  ITaskResult,
-  IConsoleWriter,
-  ITask,
-  ITaskConstructor,
-} from '../../../interfaces';
+import { IProject, ITaskResult, IConsoleWriter, ITask, ITaskConstructor } from '../../../types';
 import Checkup from '../../../checkup';
 import ResultWriter from '../../../utils/result-writer';
 import MockConsole from '../utils/mock-console';

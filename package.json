@@ -14,8 +14,8 @@
   },
   "scripts": {
     "build": "tsc",
+    "build:watch": "tsc -w",
     "clean": "rm -rf lib/*",
-    "dev": "tsc -w",
     "lint": "eslint --ext js,ts .",
     "prepublishOnly": "yarn build",
     "postpublish": "yarn clean",
@@ -30,8 +30,7 @@
   },
   "lint-staged": {
     "src/**/*.ts": [
-      "eslint --ext js,ts . --fix",
-      "git add"
+      "eslint --ext js,ts . --fix"
     ]
   },
   "dependencies": {

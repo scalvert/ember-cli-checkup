@@ -1,4 +1,4 @@
-import { ITaskResult, IConsoleWriter, IDependencyList, IDictionary } from '../interfaces';
+import { ITaskResult, IConsoleWriter, IDependencyList, IDictionary } from '../types';
 
 export default class DependenciesTaskResult implements ITaskResult {
   emberLibraries!: IDictionary<string>;

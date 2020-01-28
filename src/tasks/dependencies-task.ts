@@ -1,4 +1,4 @@
-import { IProject, ITask, IDictionary, ITaskResult } from '../interfaces';
+import { IProject, ITask, IDictionary, ITaskResult } from '../types';
 import Task from '../task';
 import { DependenciesTaskResult } from '../results';
 

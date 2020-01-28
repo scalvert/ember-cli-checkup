@@ -1,5 +1,5 @@
 import FixturifyProject = require('fixturify-project');
-import { IProject } from '../../../../src/interfaces';
+import { IProject } from '../../../../src/types';
 
 interface EmberCLIFixturifyProject extends FixturifyProject {
   addAddon(

@@ -1,5 +1,5 @@
 import * as globby from 'globby';
-import { SearchPatterns, ITaskItemData } from '../interfaces';
+import { SearchPatterns, ITaskItemData } from '../types';
 
 const IGNORE_PATTERNS: string[] = [
   '!**/node_modules/**',

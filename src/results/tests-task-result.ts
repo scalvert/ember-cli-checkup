@@ -1,5 +1,5 @@
 import { Node } from '@babel/traverse';
-import { IConsoleWriter, ITaskResult, TestType } from '../interfaces';
+import { IConsoleWriter, ITaskResult, TestType } from '../types';
 import { TestTraverserFileResult } from '../tasks/tests-task';
 
 type TestFile = {

@@ -1,4 +1,4 @@
-import { ITask, IProject, SearchPatterns, ITaskResult } from './interfaces';
+import { ITask, IProject, SearchPatterns, ITaskResult } from './types';
 import FileSearcher from './searchers/file-searcher';
 import Task from './task';
 

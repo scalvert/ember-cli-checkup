@@ -3,7 +3,7 @@ import columnify = require('columnify');
 import * as Table from 'cli-table3';
 import chalk from 'chalk';
 import * as capitalize from 'capitalize';
-import { IDictionary, IConsoleWriter } from '../interfaces';
+import { IDictionary, IConsoleWriter } from '../types';
 
 const BRAND = {
   heading: chalk.rgb(224, 78, 58),

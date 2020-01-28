@@ -1,5 +1,5 @@
 import ConsoleWriter from './console-writer';
-import { ITaskResult, IConsoleWriter } from '../interfaces';
+import { ITaskResult, IConsoleWriter } from '../types';
 
 export default class ResultWriter {
   results: ITaskResult[];

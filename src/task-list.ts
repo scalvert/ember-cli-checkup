@@ -1,4 +1,4 @@
-import { ITaskList, ITask, IProject, ITaskConstructor, ITaskResult } from './interfaces';
+import { ITaskList, ITask, IProject, ITaskConstructor, ITaskResult } from './types';
 import * as pMap from 'p-map';
 
 /**

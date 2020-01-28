@@ -54,6 +54,7 @@ export interface IOptions {
   verbose?: boolean;
   silent?: boolean;
   json?: boolean;
+  task?: string;
 }
 
 export interface IProject {
@@ -71,7 +72,7 @@ export interface IProject {
 export interface ISearchTraverser<T> {
   hasResults: boolean;
   results: T;
-  visitors: TraverseOptions;
+  visitors: TraverseOptions | any;
   traverseAst: (filePath: string) => void;
   reset: () => void;
 }

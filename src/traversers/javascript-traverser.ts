@@ -1,6 +1,6 @@
 import { File } from '@babel/types';
 import * as parser from '@babel/parser';
-import traverse from '@babel/traverse';
+import traverse, { TraverseOptions } from '@babel/traverse';
 import { javascriptAstCache as astCache } from '../utils/ast-cache';
 import getFileContents from '../utils/get-file-contents';
 
@@ -11,7 +11,7 @@ const PARSE_OPTIONS = { allowImportExportEverywhere: true };
  * traversing the contents of a JavaScript file.
  */
 export default abstract class JavaScriptTraverser {
-  abstract get visitors(): object;
+  abstract get visitors(): TraverseOptions;
   fileContents!: string;
 
   traverseAst(fullFilePath: string) {
