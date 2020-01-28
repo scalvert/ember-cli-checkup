@@ -55,6 +55,7 @@ export interface IOptions {
   silent?: boolean;
   json?: boolean;
   task?: string;
+  listTasks?: boolean;
 }
 
 export interface IProject {

@@ -11,6 +11,8 @@ export default class Clock {
   }
 
   get duration(): string {
-    return ((this.endTime - this.startTime) / 1000).toFixed(2);
+    let duration = ((this.endTime - this.startTime) / 1000).toFixed(2);
+
+    return `✨ Checkup complete in ${duration}s.`;
   }
 }

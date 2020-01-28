@@ -1,5 +1,6 @@
+import { IConsoleWriter, ITaskResult } from '../types';
+
 import ConsoleWriter from './console-writer';
-import { ITaskResult, IConsoleWriter } from '../types';
 
 export default class ResultWriter {
   results: ITaskResult[];
@@ -37,10 +38,5 @@ export default class ResultWriter {
     });
 
     return resultData;
-  }
-
-  writeDuration(duration: string) {
-    this.writer.text(`✨ Checkup complete in ${duration}s.`);
-    this.writer.line();
   }
 }

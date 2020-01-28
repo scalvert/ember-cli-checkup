@@ -1,9 +1,10 @@
 import { IUserInterface, IProject, ITaskConstructor, IOptions, ITaskResult } from './types';
-import { getTaskByName } from './utils/default-tasks';
+import { getTaskByName, getTaskNames } from './utils/default-tasks';
 import TaskList from './task-list';
 import * as DefaultTasks from './tasks';
 import ResultWriter from './utils/result-writer';
 import Clock from './utils/clock';
+import ConsoleWriter from './utils/console-writer';
 
 const DEFAULT_TASKS = <ITaskConstructor[]>(
   Object.values(DefaultTasks).filter(x => typeof x == 'function')
@@ -19,6 +20,8 @@ export default class Checkup {
   project: IProject;
   ui: IUserInterface;
   defaultTasks: ITaskConstructor[];
+  clock: Clock;
+  console: ConsoleWriter;
 
   /**
    *
@@ -35,15 +38,41 @@ export default class Checkup {
     this.project = project;
     this.ui = ui;
     this.defaultTasks = tasks;
+    this.clock = new Clock();
+    this.console = new ConsoleWriter();
   }
 
   /**
    * @method run
    *
-   * Gathers and runs all tasks associated with checking up on an Ember repo.
+   * Entry point for running checkup based on provided options.
    */
   async run(): Promise<ITaskResult[]> {
-    let clock = new Clock();
+    this.clock.start();
+
+    if (this.options.listTasks) {
+      let taskNames: string[] = getTaskNames();
+
+      this.console.heading('Available Tasks');
+      this.console.text(taskNames.join('\n'));
+      this.clock.stop();
+
+      this.console.line();
+      this.console.text(this.clock.duration);
+      this.console.line();
+
+      return Promise.resolve([]);
+    }
+
+    return this.runTasks();
+  }
+
+  /**
+   * @method
+   *
+   * Gathers and runs all tasks associated with checking up on an Ember repo.
+   */
+  async runTasks() {
     let tasks = new TaskList(this.project);
 
     if (this.options.task !== undefined) {
@@ -54,13 +83,11 @@ export default class Checkup {
       tasks.addTasks(this.defaultTasks);
     }
 
-    clock.start();
-
     this.ui.startProgress('Hang tight while we check up on your Ember project');
 
     let taskResults = await tasks.runTasks();
 
-    clock.stop();
+    this.clock.stop();
 
     this.ui.stopProgress();
 
@@ -68,11 +95,12 @@ export default class Checkup {
       let writer = new ResultWriter(taskResults);
 
       if (this.options.json) {
-        console.log(JSON.stringify(writer.toJson(), null, 2));
+        this.console.text(JSON.stringify(writer.toJson(), null, 2));
       } else {
         writer.toConsole();
       }
-      writer.writeDuration(clock.duration);
+      this.console.text(this.clock.duration);
+      this.console.line();
     }
 
     return taskResults;

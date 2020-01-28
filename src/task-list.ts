@@ -1,5 +1,6 @@
-import { ITaskList, ITask, IProject, ITaskConstructor, ITaskResult } from './types';
 import * as pMap from 'p-map';
+
+import { IProject, ITask, ITaskConstructor, ITaskList, ITaskResult } from './types';
 
 /**
  * @class TaskList
@@ -13,7 +14,6 @@ export default class TaskList implements ITaskList {
   /**
    *
    * @param project {IProject} the project model that is instantiated as part of ember-cli.
-   * @param ui {IUserInterface} the UI model that is instantiated as part of ember-cli.
    * @param results {ITaskResult[]} the results object that aggregates data together for output.
    */
   constructor(project: IProject) {
