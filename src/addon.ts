@@ -1,5 +1,5 @@
 import Checkup from './checkup';
-import { ICommand, IOptions, ITaskResult } from './interfaces';
+import { ICommand, IOptions, ITaskResult } from './types';
 
 let command: ICommand = {
   name: 'checkup',
@@ -10,6 +10,7 @@ let command: ICommand = {
     { name: 'verbose', type: Boolean, default: false, aliases: ['v'] },
     { name: 'silent', type: Boolean, default: false, aliases: ['s'] },
     { name: 'json', type: Boolean, default: false },
+    { name: 'task', type: String, default: '', aliases: ['t'] },
   ],
 
   run(options: IOptions): Promise<ITaskResult[]> {

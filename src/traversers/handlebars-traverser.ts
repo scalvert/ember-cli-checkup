@@ -1,4 +1,4 @@
-import { AST } from '@glimmer/syntax';
+import { AST, NodeVisitor } from '@glimmer/syntax';
 import { parse, traverse } from 'ember-template-recast';
 import { handlebarsAstCache as astCache } from '../utils/ast-cache';
 import getFileContents from '../utils/get-file-contents';
@@ -8,7 +8,7 @@ import getFileContents from '../utils/get-file-contents';
  * traversing the contents of a Handlebars file.
  */
 export default abstract class HandlebarsTraverser {
-  abstract get visitors(): object;
+  abstract get visitors(): NodeVisitor;
   fileContents!: string;
 
   traverseAst(fullFilePath: string) {

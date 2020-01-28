@@ -9,6 +9,7 @@
 ## Building
 
 - `yarn build` - builds the Ember CLI command
+- `yarn build:watch` - build the Ember CLI command in watch mode
 - `yarn clean` - cleans all JS files that resulted from a build
 
 ## Linting

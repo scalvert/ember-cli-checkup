@@ -1,4 +1,5 @@
-import { IUserInterface, IProject, ITaskConstructor, IOptions, ITaskResult } from './interfaces';
+import { IUserInterface, IProject, ITaskConstructor, IOptions, ITaskResult } from './types';
+import { getTaskByName } from './utils/default-tasks';
 import TaskList from './task-list';
 import * as DefaultTasks from './tasks';
 import ResultWriter from './utils/result-writer';
@@ -18,7 +19,6 @@ export default class Checkup {
   project: IProject;
   ui: IUserInterface;
   defaultTasks: ITaskConstructor[];
-  result: ITaskResult[];
 
   /**
    *
@@ -29,14 +29,12 @@ export default class Checkup {
     options: IOptions,
     project: IProject,
     ui: IUserInterface,
-    tasks: ITaskConstructor[] = DEFAULT_TASKS,
-    results = []
+    tasks: ITaskConstructor[] = DEFAULT_TASKS
   ) {
     this.options = options;
     this.project = project;
     this.ui = ui;
     this.defaultTasks = tasks;
-    this.result = results;
   }
 
   /**
@@ -47,9 +45,14 @@ export default class Checkup {
   async run(): Promise<ITaskResult[]> {
     let clock = new Clock();
     let tasks = new TaskList(this.project);
-    let defaultTaskConstructors = this.defaultTasks;
 
-    tasks.addTasks(defaultTaskConstructors);
+    if (this.options.task !== undefined) {
+      let task = getTaskByName(this.options.task);
+
+      tasks.addTask(task);
+    } else {
+      tasks.addTasks(this.defaultTasks);
+    }
 
     clock.start();
 
@@ -65,7 +68,7 @@ export default class Checkup {
       let writer = new ResultWriter(taskResults);
 
       if (this.options.json) {
-        console.log(writer.toJson());
+        console.log(JSON.stringify(writer.toJson(), null, 2));
       } else {
         writer.toConsole();
       }

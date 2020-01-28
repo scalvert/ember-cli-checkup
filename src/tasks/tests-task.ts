@@ -1,5 +1,5 @@
 import { Node, NodePath } from '@babel/traverse';
-import { ITask, ISearchTraverser, TestType } from '../interfaces';
+import { ITask, ISearchTraverser, TestType } from '../types';
 import Task from '../task';
 import AstSearcher from '../searchers/ast-searcher';
 import JavaScriptTraverser from '../traversers/javascript-traverser';

@@ -1,4 +1,4 @@
-import { ITaskResult, IConsoleWriter } from '../interfaces';
+import { ITaskResult, IConsoleWriter } from '../types';
 
 export default class ProjectInfoTaskResult implements ITaskResult {
   type!: string;

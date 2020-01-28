@@ -1,10 +1,17 @@
+import { Identifier } from '@babel/types';
+import { Node, NodePath } from '@babel/traverse';
+import IFixturifyProject = require('ember-cli/tests/helpers/fixturify-project');
+import AstSearcher from '../../../searchers/ast-searcher';
+import JavaScriptTraverser from '../../../traversers/javascript-traverser';
+import { javascriptAstCache } from '../../../utils/ast-cache';
+import { ISearchTraverser } from '../../../types';
+
 const { test } = QUnit;
 const DisposableFixturifyProject = require('../../helpers/DisposableFixturifyProject');
-import AstSearcher from '../../../searchers/ast-searcher';
-import { javascriptAstCache } from '../../../utils/ast-cache';
-import JavaScriptTraverser from '../../../traversers/javascript-traverser';
 
-class CustomJavaScriptTraverser extends JavaScriptTraverser {
+class CustomJavaScriptTraverser extends JavaScriptTraverser implements ISearchTraverser<Node[]> {
+  private _nodes: Node[];
+
   constructor() {
     super();
 
@@ -25,8 +32,11 @@ class CustomJavaScriptTraverser extends JavaScriptTraverser {
 
   get visitors() {
     return {
-      Identifier: path => {
-        if (path.node.name === 'foo' && path.parent.type !== 'ImportDefaultSpecifier') {
+      Identifier: (path: NodePath) => {
+        if (
+          (<Identifier>path.node).name === 'foo' &&
+          path.parent.type !== 'ImportDefaultSpecifier'
+        ) {
           this._nodes.push(path.node);
         }
       },
@@ -37,8 +47,8 @@ class CustomJavaScriptTraverser extends JavaScriptTraverser {
 QUnit.module('ast-searcher using JavaScriptTraverser', function(hooks) {
   const FILE_PATH = 'test-app';
 
-  let fixturifyProject;
-  let searcher;
+  let fixturifyProject: IFixturifyProject;
+  let searcher: AstSearcher;
 
   hooks.beforeEach(function() {
     fixturifyProject = new DisposableFixturifyProject('cli-checkup-app', '0.0.0');

@@ -1,10 +1,18 @@
+import { AST } from '@glimmer/syntax';
+import IFixturifyProject = require('ember-cli/tests/helpers/fixturify-project');
+import AstSearcher from '../../../searchers/ast-searcher';
+import HandlebarsTraverser from '../../../traversers/handlebars-traverser';
+import { handlebarsAstCache } from '../../../utils/ast-cache';
+import { ISearchTraverser } from '../../../types';
+import { PathExpression } from '@glimmer/syntax/dist/types/lib/types/nodes';
+
 const { test } = QUnit;
 const DisposableFixturifyProject = require('../../helpers/DisposableFixturifyProject');
-import AstSearcher from '../../../searchers/ast-searcher';
-import { handlebarsAstCache } from '../../../utils/ast-cache';
-import HandlebarsTraverser from '../../../traversers/handlebars-traverser';
 
-class CustomHandlebarsTraverser extends HandlebarsTraverser {
+class CustomHandlebarsTraverser extends HandlebarsTraverser
+  implements ISearchTraverser<AST.BaseNode[]> {
+  private _nodes: AST.BaseNode[];
+
   constructor() {
     super();
 
@@ -25,7 +33,7 @@ class CustomHandlebarsTraverser extends HandlebarsTraverser {
 
   get visitors() {
     return {
-      PathExpression: node => {
+      PathExpression: (node: PathExpression) => {
         if (node.original === 'foo') {
           this._nodes.push(node);
         }
@@ -37,8 +45,8 @@ class CustomHandlebarsTraverser extends HandlebarsTraverser {
 QUnit.module('ast-searcher using HandlebarsTraverser', function(hooks) {
   const FILE_PATH = 'test-app';
 
-  let fixturifyProject;
-  let searcher;
+  let fixturifyProject: IFixturifyProject;
+  let searcher: AstSearcher;
 
   hooks.beforeEach(function() {
     fixturifyProject = new DisposableFixturifyProject('cli-checkup-app', '0.0.0');

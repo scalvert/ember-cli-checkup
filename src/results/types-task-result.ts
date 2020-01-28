@@ -1,4 +1,4 @@
-import { ITaskResult, IConsoleWriter, ITaskItemData } from '../interfaces';
+import { ITaskResult, IConsoleWriter, ITaskItemData } from '../types';
 import getTaskItemTotals from '../utils/get-task-item-totals';
 
 export default class TypesTaskResult implements ITaskResult {

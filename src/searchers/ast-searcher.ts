@@ -1,6 +1,6 @@
 import * as path from 'path';
 import * as globby from 'globby';
-import { ISearchTraverser } from '../interfaces';
+import { ISearchTraverser } from '../types';
 
 const IGNORE_PATTERNS: string[] = [
   '!**/node_modules/**',
