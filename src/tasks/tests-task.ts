@@ -77,17 +77,6 @@ class TestTraverser extends JavaScriptTraverser
 }
 
 export default class TestsTask extends Task implements ITask {
-  /**
-   * Returns the Node count of the individual test metrics from the ast search result.
-   * Possible Metrics - moduleCount, skipCount, testCount
-   * @param invocationMap
-   * @param metricType
-   */
-  getTestMetricCount(invocationMap: Map<string, Node[]>, metricType: string) {
-    const metricValue = invocationMap.get(metricType);
-    return metricValue ? metricValue.length : 0;
-  }
-
   async run(): Promise<TestsTaskResult> {
     let astSearcher = new AstSearcher(this.project.root, ['**/tests/**/*.js']);
 
