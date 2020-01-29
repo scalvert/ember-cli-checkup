@@ -1,5 +1,5 @@
 import Task from '../../task';
-import { ITaskResult, IConsoleWriter } from '../../interfaces';
+import { ITaskResult, IConsoleWriter } from '../../types';
 
 class TaglessTaskResult implements ITaskResult {
   get basic() {
@@ -24,9 +24,13 @@ class TaglessTaskResult implements ITaskResult {
     };
   }
 
-  write(writer: IConsoleWriter) {
+  toConsole(writer: IConsoleWriter) {
     writer.heading('Implement Me!');
     writer.line();
+  }
+
+  toJson() {
+    return this.basic;
   }
 }
 
