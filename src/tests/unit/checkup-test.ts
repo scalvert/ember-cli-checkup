@@ -8,16 +8,6 @@ import { ITaskConstructor, ITask, IProject, ITaskResult, IConsoleWriter } from '
 import Checkup from '../../checkup';
 import Task from '../../task';
 
-type ObjectOrString = object | string;
-
-interface FixtureAssertions {
-  matches(value: ObjectOrString, message?: string): void;
-}
-
-interface FixtureAssert extends Assert {
-  fixture: (fixtureName: string) => FixtureAssertions;
-}
-
 const { test } = QUnit;
 
 class FakeTaskResult implements ITaskResult {
