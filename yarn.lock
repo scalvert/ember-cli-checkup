@@ -916,9 +916,9 @@
     "@simple-dom/interface" "^1.4.0"
 
 "@glimmer/validator@^0.47.0", "@glimmer/validator@^0.47.3":
-  version "0.47.3"
-  resolved "https://registry.yarnpkg.com/@glimmer/validator/-/validator-0.47.3.tgz#09722d88b2023b4e26632ab3e5ed9dacdbb5f3b2"
-  integrity sha512-k7By19cTMFR53LtXsAwk/Ezrny4Md1YXTNdVqD8fXMOmA0xF5iiK+5s6TFaxxxtk08LKNKgU1x6x8L+2gR0TiA==
+  version "0.47.4"
+  resolved "https://registry.yarnpkg.com/@glimmer/validator/-/validator-0.47.4.tgz#8ba22ccdf5adbf57fd175cbe77f447e43cabd092"
+  integrity sha512-u7jFJRBtz3i5/XWRlfCjSUsp6/NEA4J0/ildurvfdWDZusLZ0qAu995H1C12WtpIvvbY4rA/ELHnt5sNMldHDQ==
   dependencies:
     "@glimmer/env" "^0.1.7"
 
