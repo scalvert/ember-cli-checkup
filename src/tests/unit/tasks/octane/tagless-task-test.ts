@@ -23,22 +23,78 @@ QUnit.module('Octane | Tagless Task', function(hooks) {
     const project = fixturifyProject.buildProjectModel();
     const result = await new TaglessTask(project).run();
 
-    const {
-      basic: { percentage },
-    } = result;
+    const { percentage } = result.toJson();
 
     assert.equal(percentage, 100, 'percentage is 100%');
   });
 
-  // test('', async function(assert) {
-  //   fixturifyProject.files = Object.assign(fixturifyProject.files, {
-  //     components: {},
-  //     templates: {},
-  //   });
+  test('it should identify a component with a "tagName" defined', async function(assert) {
+    fixturifyProject.files = Object.assign(fixturifyProject.files, {
+      app: {
+        components: {
+          'card.js': `
+            import Component from '@ember/component';
 
-  //   fixturifyProject.writeSync(FILE_PATH);
+            export default Component.extend({});
+          `,
+          'card-1.js': `
+            import Component from '@ember/component';
 
-  //   const project = fixturifyProject.buildProjectModel();
-  //   const result = await new TaglessTask(project).run();
-  // });
+            export default Component.extend({
+              tagName: 'article',
+            });
+          `,
+          'card-2.js': `
+            import Component from '@ember/component';
+
+            export default Component.extend();
+          `,
+        },
+      },
+    });
+
+    fixturifyProject.writeSync(FILE_PATH);
+
+    const project = fixturifyProject.buildProjectModel();
+    const result = await new TaglessTask(project).run();
+
+    const { percentage } = result.toJson();
+
+    assert.equal(percentage, 0, 'percentage is 0%');
+  });
+
+  test('it should find a tagless component', async function(assert) {
+    fixturifyProject.files = Object.assign(fixturifyProject.files, {
+      app: {
+        components: {
+          'card.js': `
+            import Component from '@ember/component';
+
+            export default Component.extend({
+              tagName: '',
+              title: 'Some Title',
+            });
+          `,
+        },
+        templates: {
+          'card.hbs': `
+            <article>
+              <header>{{title}}</header>
+            </article>
+          `,
+        },
+      },
+    });
+
+    const project = fixturifyProject.buildProjectModel();
+    const result = await new TaglessTask(project).run();
+
+    const { percentage } = result.toJson();
+
+    assert.equal(percentage, 100, 'percentage is 100%');
+  });
+
+  // test('it should find a mix of converted components', async function(assert) {});
+
+  // test('it should work with component defined in internal addons/engined', async function(assert) {});
 });

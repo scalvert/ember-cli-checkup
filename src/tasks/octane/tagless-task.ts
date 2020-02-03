@@ -1,10 +1,25 @@
 import Task from '../../task';
-import { ITaskResult, IConsoleWriter } from '../../types';
+import { ITaskResult, IConsoleWriter, ISearchTraverser } from '../../types';
+import { Node, NodePath } from '@babel/traverse';
+import AstSearcher from '../../searchers/ast-searcher';
+import JavaScriptTraverser from '../../traversers/javascript-traverser';
+
+type TaglessMigrationFileResult = {
+  componentDefs: Node[];
+};
 
 class TaglessTaskResult implements ITaskResult {
+  _verbose: {
+    migrated: Node[];
+    remaining: Node[];
+  } = {
+    migrated: [],
+    remaining: [],
+  };
+
   get basic() {
-    const completeCount = this.verbose.complete.length;
-    const total = completeCount + this.verbose.incomplete.length;
+    const migratedCount = this.verbose.migrated.length;
+    const total = migratedCount + this.verbose.remaining.length;
 
     if (!total) {
       return {
@@ -13,15 +28,12 @@ class TaglessTaskResult implements ITaskResult {
     }
 
     return {
-      percentage: completeCount / total,
+      percentage: migratedCount / total,
     };
   }
 
   get verbose() {
-    return {
-      complete: [],
-      incomplete: [],
-    };
+    return this._verbose;
   }
 
   toConsole(writer: IConsoleWriter) {
@@ -32,10 +44,53 @@ class TaglessTaskResult implements ITaskResult {
   toJson() {
     return this.basic;
   }
+
+  transformAndLoadResults(results: Map<string, TaglessMigrationFileResult>) {
+    for (const [, { componentDefs }] of results.entries()) {
+      this._verbose.remaining.push(...componentDefs);
+    }
+  }
+}
+
+class TaglessComponentTraverser extends JavaScriptTraverser
+  implements ISearchTraverser<TaglessMigrationFileResult> {
+  // constructor() {
+  //   super();
+  // }
+
+  get hasResults(): boolean {
+    return false;
+  }
+
+  get results(): TaglessMigrationFileResult {
+    return {
+      componentDefs: [],
+    };
+  }
+
+  get visitors() {
+    return {
+      Identifier: (path: NodePath) => {
+        const pathNodeName: string = path.node.type === 'Identifier' ? path.node.name : '';
+
+        console.log(pathNodeName);
+      },
+    };
+  }
+
+  reset() {}
 }
 
 export default class TaglessTask extends Task {
   async run() {
-    return new TaglessTaskResult();
+    const astSearcher = new AstSearcher(this.project.root, ['**/components/**/*.js']);
+
+    const taglessTraverser = new TaglessComponentTraverser();
+    const searchResults = await astSearcher.search(taglessTraverser);
+    const result = new TaglessTaskResult();
+
+    result.transformAndLoadResults(searchResults);
+
+    return result;
   }
 }
