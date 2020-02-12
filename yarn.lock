@@ -2410,9 +2410,9 @@ caniuse-lite@^1.0.30001021:
   integrity sha512-FjwPPtt/I07KyLPkBQ0g7/XuZg6oUkYBVnPHNj3VHJbOjmmJ/GdSo/GUY6MwINEQvjhP6WZVbX8Tvms8xh0D5A==
 
 capitalize@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/capitalize/-/capitalize-2.0.1.tgz#80ae4f0e0a419b855c183c9f003a373d6fe05c84"
-  integrity sha512-ACINwaqQt2h19mjg89Ikud5c1aE5qu81MJiW6/Bn/CAnohHpkgEjzBJ/MhlctKr07MyxG0Va4Bj3hmzSTSvHTg==
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/capitalize/-/capitalize-2.0.2.tgz#d66855724fafc09f7f913131f89000a7879e6954"
+  integrity sha512-kX+ZpaqUSx1YcAKnZ6J4HZY0yaYc+RnIVkO+3ckeerj8lW0T+9GmyRekRF3PzH+46HHdsz2ma0S0NfTby/rojA==
 
 capture-exit@^2.0.0:
   version "2.0.0"
