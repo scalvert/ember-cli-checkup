@@ -857,13 +857,13 @@
     "@glimmer/util" "^0.47.5"
 
 "@glimmer/reference@^0.47.0", "@glimmer/reference@^0.47.5":
-  version "0.47.5"
-  resolved "https://registry.yarnpkg.com/@glimmer/reference/-/reference-0.47.5.tgz#db1e6f21dc141cb41d3ae4ba975654b1536364a1"
-  integrity sha512-ATHsAYurdCdsxyyfj6OlM4RwrdamJQHzW6sgvHz8fHsSG15RU43Gala7PAdgkgHVnbyfW/MsiYXhLsPzSnRqYQ==
+  version "0.47.6"
+  resolved "https://registry.yarnpkg.com/@glimmer/reference/-/reference-0.47.6.tgz#bd784714fafeb9169aab9ee378d646e601076687"
+  integrity sha512-mb2Pvo/p3IkxkK1z0Po1aUYGlK2oqiItxfi8hY/h8NGv2TjH0Vs7eWBksmT4IChUYLBotD7a8iT29zJFoiPwkw==
   dependencies:
     "@glimmer/env" "^0.1.7"
-    "@glimmer/util" "^0.47.5"
-    "@glimmer/validator" "^0.47.5"
+    "@glimmer/util" "^0.47.6"
+    "@glimmer/validator" "^0.47.6"
 
 "@glimmer/runtime@^0.47.0":
   version "0.47.5"
@@ -908,17 +908,17 @@
   dependencies:
     "@simple-dom/interface" "^1.4.0"
 
-"@glimmer/util@^0.47.5":
-  version "0.47.5"
-  resolved "https://registry.yarnpkg.com/@glimmer/util/-/util-0.47.5.tgz#34c7741e335af0f232a70652d1b6603e532d8894"
-  integrity sha512-NIwVlUd7KjnR0A0KO3+IHA11gZRQ1xSRQdDKJISib2i+qVspeQSWWNu+vm2ITTXiQzZBBGfSJTFyh23NZolufQ==
+"@glimmer/util@^0.47.5", "@glimmer/util@^0.47.6":
+  version "0.47.6"
+  resolved "https://registry.yarnpkg.com/@glimmer/util/-/util-0.47.6.tgz#40897f8ca647dc79ff6173888d1129215586fc83"
+  integrity sha512-+H4sG0fkarPjiKUIO6o6hI5CiHjKeF02UwTNWojd2hzqdTwGtLOPErN6JDUX1nC4IQ/PgpO03ddE22hz6HOu1Q==
   dependencies:
     "@simple-dom/interface" "^1.4.0"
 
-"@glimmer/validator@^0.47.0", "@glimmer/validator@^0.47.5":
-  version "0.47.5"
-  resolved "https://registry.yarnpkg.com/@glimmer/validator/-/validator-0.47.5.tgz#a2b7cce6d5c23ab1e88a75c8d383815b1d802fb1"
-  integrity sha512-KI0bop9xlwS23eSy69H4RsgdhrOi7LN30EfL5UO09aoUPc6Y7U8Y/Vs3wVksn6MsrOuAauHN9iuLcYdekPMz0Q==
+"@glimmer/validator@^0.47.0", "@glimmer/validator@^0.47.5", "@glimmer/validator@^0.47.6":
+  version "0.47.6"
+  resolved "https://registry.yarnpkg.com/@glimmer/validator/-/validator-0.47.6.tgz#8e4f74367fb5ccb020952f86c6d5ddb3ccf6826f"
+  integrity sha512-biRtKG2ErR8U99JqyHOb30mO3Umgv/WR2utdn/jfN82XPTVXVaEyI93CfO5tbXyNGrMSbDBdfkNohAO0OGEFtQ==
   dependencies:
     "@glimmer/env" "^0.1.7"
 
